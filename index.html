@@ -52,7 +52,7 @@
       cursor: pointer;
       transition: transform 0.15s ease-in-out;
     }
-    .custom-marker:hover, .custom-marker.active {
+    .custom-marker:hover {
       background: #FFFFFF;
       transform: scale(1.15);
     }
@@ -165,8 +165,8 @@
           <span class="font-mono text-xs uppercase tracking-wider text-zinc-300 font-bold">En direct</span>
         </div>
         <div class="flex items-center gap-2 font-mono text-xs">
-          <span class="text-zinc-500">Heure simulée :</span>
-          <span id="sliderDisplayTime" class="bg-black text-brand-lime px-2 py-0.5 rounded font-bold border border-zinc-700">15:00</span>
+          <span class="text-zinc-500">Heure :</span>
+          <span id="sliderDisplayTime" class="bg-black text-brand-lime px-2 py-0.5 rounded font-bold border border-zinc-700">--:--</span>
           <button id="liveClockBtn" class="text-xs text-zinc-400 hover:text-white underline ml-1">Heure réelle</button>
         </div>
       </div>
@@ -238,7 +238,6 @@
   </footer>
 
   <script>
-    // Données des 12 bars avec temps Google Maps + 40%
     const bars = [
       {
         id: 1,
@@ -386,7 +385,7 @@
       }
     ];
 
-    // Google Maps multi-destinations
+    // Liens Google Maps
     const gmapsBase = "https://www.google.com/maps/dir/";
     const gmapsWaypoints = bars.map(b => encodeURIComponent(b.name + ", " + b.address)).join("/");
     const fullGmapsUrl = gmapsBase + gmapsWaypoints + "/@46.521,6.632,15z/data=!4m2!4m1!3e2";
@@ -394,12 +393,12 @@
     document.getElementById('gmapsRouteLink').href = fullGmapsUrl;
     document.getElementById('headerGmapsBtn').href = fullGmapsUrl;
 
-    // Rendu liste linéaire
+    // Rendu liste : suppression de hover:border-brand-lime pour éviter le collage tactile sur mobile
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
       card.id = `bar-card-${b.id}`;
-      card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 hover:border-brand-lime flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+      card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
       
       card.innerHTML = `
         <div class="flex items-start gap-3">
@@ -454,8 +453,12 @@
         </div>
       `);
 
+      // Clic sur marqueur : centrage visuel simple sans forcer un surlignage manuel
       marker.on('click', () => {
-        highlightBar(b.id, false, true);
+        const target = document.getElementById(`bar-card-${b.id}`);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       });
 
       markers[b.id] = marker;
@@ -472,11 +475,14 @@
       setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
-    function highlightBar(id, panTo = false, scrollTarget = false) {
+    // Surlignage strict : réservé au bar en cours calculé par le temps
+    function highlightActiveBar(id, scrollTarget = false) {
       document.querySelectorAll('#barsList > div').forEach(el => {
         el.classList.remove('border-brand-lime', 'bg-zinc-900');
         el.classList.add('border-brand-border', 'bg-brand-card');
       });
+
+      if (!id) return;
 
       const target = document.getElementById(`bar-card-${id}`);
       if (target) {
@@ -486,14 +492,8 @@
           target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
-
-      if (panTo && markers[id]) {
-        map.panTo([bars[id-1].lat, bars[id-1].lng]);
-        markers[id].openPopup();
-      }
     }
 
-    // Gestion du slider
     function parseMinutes(timeStr) {
       if (!timeStr || !timeStr.includes(':')) return 0;
       const clean = timeStr.replace('~', '').replace('+', '').trim();
@@ -522,13 +522,13 @@
       const endMin = parseMinutes("02:30");
 
       if (currentMinutes < startMin) {
-        statusContainer.innerHTML = `<span>Le barathon n'a pas encore commencé (<button type="button" class="text-brand-lime underline font-bold" onclick="highlightBar(1, true, true)">Rdv 15h00 au Bar #1</button>)</span>`;
-        highlightBar(1, false, false);
+        statusContainer.innerHTML = `<span>Le barathon n'a pas encore commencé (<button type="button" class="text-brand-lime underline font-bold" onclick="highlightActiveBar(1, true)">Rdv 15h00 au Bar #1</button>)</span>`;
+        highlightActiveBar(null);
         return;
       }
       if (currentMinutes >= endMin) {
-        statusContainer.innerHTML = `<span>Barathon terminé ! Derniers survivants au <button type="button" class="text-brand-lime underline font-bold" onclick="highlightBar(12, true, true)">Lapin Vert 🏆</button></span>`;
-        highlightBar(12, false, false);
+        statusContainer.innerHTML = `<span>Barathon terminé ! Derniers survivants au <button type="button" class="text-brand-lime underline font-bold" onclick="highlightActiveBar(12, true)">Lapin Vert 🏆</button></span>`;
+        highlightActiveBar(12);
         return;
       }
 
@@ -543,34 +543,43 @@
         } else if (i < bars.length - 1) {
           const nextInM = parseMinutes(bars[i+1].in);
           if (currentMinutes > outM && currentMinutes < nextInM) {
-            statusContainer.innerHTML = `<span>En marche vers <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightBar(${bars[i+1].id}, true, true)">#${bars[i+1].id} ${bars[i+1].name} ➔</button></span>`;
-            highlightBar(bars[i+1].id, false, false);
+            statusContainer.innerHTML = `<span>En marche vers <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${bars[i+1].id}, true)">#${bars[i+1].id} ${bars[i+1].name} ➔</button></span>`;
+            highlightActiveBar(bars[i+1].id);
             return;
           }
         }
       }
 
       if (activeBar) {
-        statusContainer.innerHTML = `<span>Actuellement au <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightBar(${activeBar.id}, true, true)">Bar #${activeBar.id} : ${activeBar.name} ➔</button> <span class="text-zinc-400">(jusqu'à ${activeBar.out})</span></span>`;
-        highlightBar(activeBar.id, false, false);
+        statusContainer.innerHTML = `<span>Actuellement au <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${activeBar.id}, true)">Bar #${activeBar.id} : ${activeBar.name} ➔</button> <span class="text-zinc-400">(jusqu'à ${activeBar.out})</span></span>`;
+        highlightActiveBar(activeBar.id);
       }
     }
 
+    // Gestion du slider manuel
     slider.addEventListener('input', (e) => {
       updateTimePosition(parseInt(e.target.value, 10));
     });
 
-    document.getElementById('liveClockBtn').addEventListener('click', () => {
+    // Synchronisation automatique sur l'heure réelle de l'appareil
+    function syncToDeviceTime() {
       const now = new Date();
       let h = now.getHours();
       const m = now.getMinutes();
-      if (h < 12) h += 24;
-      const current = Math.min(Math.max(h * 60 + m, 900), 1620);
-      slider.value = current;
+      if (h < 12) h += 24; // 00:00 -> 24:00, 01:00 -> 25:00...
+      const current = h * 60 + m;
+      const clamped = Math.min(Math.max(current, 900), 1620);
+      slider.value = clamped;
       updateTimePosition(current);
-    });
+    }
 
-    updateTimePosition(900);
+    document.getElementById('liveClockBtn').addEventListener('click', syncToDeviceTime);
+
+    // Initialisation automatique à l'ouverture de la page
+    syncToDeviceTime();
+
+    // Actualisation automatique en tâche de fond toutes les minutes
+    setInterval(syncToDeviceTime, 60000);
 
     // Modal Calendrier & Gestion des plateformes
     const calBtn = document.getElementById('openCalBtn');
@@ -672,7 +681,7 @@
     // 4. Office 365
     document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${titleEncoded}&body=${detailsEncoded}&location=${locationEncoded}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
 
-    // 5. Téléchargement brut .ics
+    // 5. Téléchargement direct .ics
     document.getElementById('calIcs').addEventListener('click', (e) => {
       e.preventDefault();
       const blob = new Blob([getIcsString()], { type: 'application/octet-stream;charset=utf-8' });
