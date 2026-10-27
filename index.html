@@ -56,6 +56,24 @@
       background: #FFFFFF;
       transform: scale(1.15);
     }
+    /* Style personnalisé pour le curseur slider */
+    input[type=range]::-webkit-slider-thumb {
+      appearance: none;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #C6F135;
+      border: 2px solid #000;
+      cursor: pointer;
+    }
+    input[type=range]::-moz-range-thumb {
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      background: #C6F135;
+      border: 2px solid #000;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body class="bg-brand-black text-white font-display antialiased min-h-screen selection:bg-brand-lime selection:text-black">
@@ -92,7 +110,7 @@
       </h1>
       
       <p class="text-zinc-400 text-sm sm:text-base max-w-2xl font-normal mb-6">
-        12 bars sélectionnés au cœur de Lausanne. Départ à 15h00 pour environ 50 minutes par étape et arrivée au dernier bar vers 01h30 - 01h45 pour clore la nuit.
+        12 bars sélectionnés au cœur de Lausanne. Départ à 15h00 pour environ 50 minutes par étape et arrivée au dernier bar vers 01h35 pour clore la nuit.
       </p>
 
       <!-- Cartes métriques -->
@@ -104,22 +122,22 @@
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Dernier bar</div>
-          <div class="text-cyan-400 text-base font-bold mt-1">~01:30</div>
+          <div class="text-cyan-400 text-base font-bold mt-1">~01:35</div>
           <div class="text-[11px] text-zinc-400">Le Lapin Vert</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Moyenne par bar</div>
-          <div class="text-purple-400 text-base font-bold mt-1">~51 min</div>
+          <div class="text-purple-400 text-base font-bold mt-1">~50 min</div>
           <div class="text-[11px] text-zinc-400">12 établissements</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Distance totale</div>
-          <div class="text-amber-400 text-base font-bold mt-1">3.6 km</div>
-          <div class="text-[11px] text-zinc-400">À pied (35 min cumulées)</div>
+          <div class="text-amber-400 text-base font-bold mt-1">4.2 km</div>
+          <div class="text-[11px] text-zinc-400">À pied (~1h15 cumulées)</div>
         </div>
       </div>
 
-      <!-- Bouton Ajouter au calendrier avec menu déroulant -->
+      <!-- Bouton Ajouter au calendrier avec 5 options séparées -->
       <div class="mt-6 flex flex-wrap gap-3 items-center">
         <div class="relative inline-block text-left">
           <button id="openCalBtn" type="button" class="bg-brand-card hover:bg-zinc-800 text-white font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg border border-brand-border hover:border-brand-lime transition flex items-center gap-2">
@@ -127,29 +145,45 @@
             <span class="text-xs text-zinc-400">▼</span>
           </button>
           
-          <div id="calDropdown" class="hidden absolute left-0 mt-2 w-56 rounded-lg shadow-2xl bg-zinc-900 border border-zinc-700 z-50 py-1 font-mono text-xs">
-            <a href="#" id="calGoogle" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Google Calendar</a>
-            <a href="#" id="calIcs" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Apple / Télécharger (.ics)</a>
-            <a href="#" id="calOutlook" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Outlook Web</a>
-            <a href="#" id="calOffice" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Office 365</a>
+          <div id="calDropdown" class="hidden absolute left-0 mt-2 w-60 rounded-lg shadow-2xl bg-zinc-900 border border-zinc-700 z-50 py-1 font-mono text-xs">
+            <a href="#" id="calGoogle" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">1. Google Calendar</a>
+            <a href="#" id="calApple" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">2. Apple Calendar</a>
+            <a href="#" id="calOutlook" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">3. Outlook Web</a>
+            <a href="#" id="calOffice" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">4. Office 365</a>
+            <a href="#" id="calIcs" class="block px-4 py-2.5 text-zinc-400 hover:bg-zinc-800 hover:text-white border-t border-zinc-800">5. Télécharger (.ics)</a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Outil "En direct le jour J" -->
+    <!-- Outil "En direct" avec slider fluide tactile -->
     <div class="mb-8 p-4 bg-zinc-900/90 border border-zinc-800 rounded-xl">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
-          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span class="font-mono text-xs uppercase tracking-wider text-zinc-400">En direct le jour J :</span>
-          <span id="currentStatusText" class="font-mono text-xs font-bold text-brand-lime">Calcul en cours...</span>
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="font-mono text-xs uppercase tracking-wider text-zinc-300 font-bold">En direct</span>
         </div>
         <div class="flex items-center gap-2 font-mono text-xs">
-          <label for="timeSim" class="text-zinc-500">Tester une heure :</label>
-          <input type="time" id="timeSim" value="15:00" class="bg-black text-brand-lime border border-zinc-700 px-2 py-1 rounded">
-          <button id="resetTimeBtn" class="text-zinc-400 hover:text-white underline text-[11px]">En direct</button>
+          <span class="text-zinc-500">Heure simulée :</span>
+          <span id="sliderDisplayTime" class="bg-black text-brand-lime px-2 py-0.5 rounded font-bold border border-zinc-700">15:00</span>
+          <button id="liveClockBtn" class="text-xs text-zinc-400 hover:text-white underline ml-1">Heure réelle</button>
         </div>
+      </div>
+
+      <!-- Slider interactif -->
+      <div class="space-y-1 mb-3">
+        <input type="range" id="timeRangeSlider" min="900" max="1590" step="5" value="900" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C6F135]">
+        <div class="flex justify-between text-[10px] font-mono text-zinc-500 px-0.5">
+          <span>15:00 (Départ)</span>
+          <span>19:30</span>
+          <span>23:30</span>
+          <span>02:30 (Fin)</span>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-zinc-800 flex items-center gap-2">
+        <span class="text-xs text-zinc-400 font-mono">Position :</span>
+        <span id="currentStatusText" class="font-mono text-xs font-bold text-brand-lime">Calcul en cours...</span>
       </div>
     </div>
 
@@ -167,7 +201,7 @@
       <div id="map" class="h-80 sm:h-96 w-full rounded-xl border border-brand-border overflow-hidden z-10 shadow-lg"></div>
     </section>
 
-    <!-- Liste unique linéaire (1 colonne) -->
+    <!-- Liste unique linéaire (1 colonne) sans étiquettes superflues -->
     <section class="space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-brand-border">
         <h2 class="text-lg font-bold uppercase tracking-tight">Les 12 Étapes du Marathon</h2>
@@ -205,166 +239,155 @@
   </footer>
 
   <script>
+    // Parcours réaliste avec temps de déplacement tenant compte de la topographie lausannoise et d'un groupe en soirée
     const bars = [
       {
         id: 1,
         name: "Café Saint-Pierre",
-        type: "Café de quartier branché & rassemblement",
         address: "Place Benjamin-Constant 1, 1003 Lausanne",
         lat: 46.5186,
         lng: 6.6358,
         in: "15:00",
-        out: "15:50",
-        duration: "50 min",
-        nextWalk: "6 min de marche",
+        out: "15:45",
+        duration: "45 min",
+        nextWalk: "10 min de marche (montée vers Deux-Marchés)",
         note: "Point de rassemblement officiel. Vérification des troupes et première tournée."
       },
       {
         id: 2,
         name: "La Couronne d'Or",
-        type: "Bistrot historique & troquet boisé",
         address: "Rue des Deux-Marchés 13, 1005 Lausanne",
         lat: 46.5242,
         lng: 6.6322,
-        in: "15:56",
-        out: "16:45",
-        duration: "49 min",
-        nextWalk: "3 min de marche",
+        in: "15:55",
+        out: "16:40",
+        duration: "45 min",
+        nextWalk: "8 min de marche (remontée vers Rue de la Tour)",
         note: "Ambiance chaleureuse, grand comptoir et esprit café lausannois authentique."
       },
       {
         id: 3,
         name: "Le Cylure Binchstub",
-        type: "Micro-brasserie & craft beers",
         address: "Rue de la Tour 4, 1004 Lausanne",
         lat: 46.5249,
         lng: 6.6298,
         in: "16:48",
-        out: "17:40",
-        duration: "52 min",
-        nextWalk: "4 min de marche",
+        out: "17:35",
+        duration: "47 min",
+        nextWalk: "7 min de marche (descente vers Riponne / Madeleine)",
         note: "Large sélection de bières artisanales locales et pression pointue."
       },
       {
         id: 4,
         name: "The Great Escape",
-        type: "Pub incontournable & terrasse animée",
         address: "Rue Madeleine 18, 1003 Lausanne",
         lat: 46.5224,
         lng: 6.6315,
-        in: "17:44",
-        out: "18:35",
-        duration: "51 min",
-        nextWalk: "3 min de marche",
+        in: "17:42",
+        out: "18:30",
+        duration: "48 min",
+        nextWalk: "7 min de marche (descente vers Place Centrale & Grand-Pont)",
         note: "Énergie survoltée au-dessus de la place de la Riponne."
       },
       {
         id: 5,
         name: "Les Arches",
-        type: "Bar urbain sous les arches du Grand-Pont",
         address: "Place de l'Europe, 1003 Lausanne",
         lat: 46.5208,
         lng: 6.6308,
-        in: "18:38",
+        in: "18:37",
         out: "19:25",
-        duration: "47 min",
-        nextWalk: "5 min de marche",
+        duration: "48 min",
+        nextWalk: "8 min de marche (traversée vers Rue Enning)",
         note: "Cadre architectural emblématique sous les ponts de la ville."
       },
       {
         id: 6,
         name: "Le Bleu Lézard",
-        type: "Institution bistrot & ambiance musicale",
         address: "Rue Enning 10, 1003 Lausanne",
         lat: 46.5195,
         lng: 6.6355,
-        in: "19:30",
+        in: "19:33",
         out: "20:25",
-        duration: "55 min",
-        nextWalk: "2 min de marche",
+        duration: "52 min",
+        nextWalk: "5 min de marche (remontée vers Marterey)",
         note: "Mi-parcours ! Possibilité pour chacun de grignoter un burger ou des tapas au comptoir."
       },
       {
         id: 7,
         name: "Le Java",
-        type: "Bar rétro & déco éclectique",
         address: "Rue Marterey 36, 1005 Lausanne",
         lat: 46.5198,
         lng: 6.6382,
-        in: "20:27",
+        in: "20:30",
         out: "21:20",
-        duration: "53 min",
-        nextWalk: "3 min de marche",
+        duration: "50 min",
+        nextWalk: "9 min de marche (descente Marterey vers Saint-François / Grotte)",
         note: "Cocktails maison, bières et ambiance feutrée pour relancer la deuxième mi-temps."
       },
       {
         id: 8,
         name: "La Capsule",
-        type: "Bar spécialisé craft & découverte",
         address: "Rue de la Grotte 2, 1003 Lausanne",
         lat: 46.5183,
         lng: 6.6329,
-        in: "21:23",
-        out: "22:15",
-        duration: "52 min",
-        nextWalk: "5 min de marche",
+        in: "21:29",
+        out: "22:20",
+        duration: "51 min",
+        nextWalk: "11 min de marche (traversée vers le Flon)",
         note: "Pépites brassicoles rares avant d'attaquer la descente vers le Flon."
       },
       {
         id: 9,
         name: "King Size Pub",
-        type: "Grand pub festif du Flon",
         address: "Rue de Genève 17, 1003 Lausanne",
         lat: 46.5209,
         lng: 6.6272,
-        in: "22:20",
-        out: "23:10",
-        duration: "50 min",
-        nextWalk: "2 min de marche",
+        in: "22:31",
+        out: "23:25",
+        duration: "54 min",
+        nextWalk: "3 min de marche (au cœur du Flon)",
         note: "Ambiance sonore qui monte d'un cran, billards et esprit pub."
       },
       {
         id: 10,
         name: "Barberousse",
-        type: "Taverne pirate festive",
         address: "Rue de Genève 8, 1003 Lausanne",
         lat: 46.5218,
         lng: 6.6268,
-        in: "23:12",
-        out: "00:05",
-        duration: "53 min",
-        nextWalk: "3 min de marche",
+        in: "23:28",
+        out: "00:20",
+        duration: "52 min",
+        nextWalk: "3 min de marche (dans la même rue)",
         note: "Passage aux shooters et planteurs dans une ambiance de cale de navire."
       },
       {
         id: 11,
         name: "Taco's Bar",
-        type: "Bar rock & live du Flon",
         address: "Rue de Genève 17, 1003 Lausanne",
         lat: 46.5206,
         lng: 6.6265,
-        in: "00:08",
-        out: "01:00",
-        duration: "52 min",
-        nextWalk: "8 min de marche (remontée Cité)",
+        in: "00:23",
+        out: "01:20",
+        duration: "57 min",
+        nextWalk: "15 min de marche (forte montée Flon ➔ Cité via Curtat)",
         note: "Rock'n'roll, guitares et bières fraîches avant l'ultime ascension vers la Cité."
       },
       {
         id: 12,
         name: "Le Lapin Vert",
-        type: "Grand final historique de la Cité",
         address: "Ruelle du Lapin-Vert, 1005 Lausanne",
         lat: 46.5228,
         lng: 6.6352,
-        in: "01:08",
-        out: "~02:00+",
+        in: "01:35",
+        out: "~02:30+",
         duration: "Fin de nuit",
         nextWalk: "Terminus / Derniers verres",
         note: "Le plus ancien bar de nuit de Lausanne pour trinquer à la réussite du marathon !"
       }
     ];
 
-    // Liens Google Maps multi-étapes
+    // Liens Google Maps multi-destinations
     const gmapsBase = "https://www.google.com/maps/dir/";
     const gmapsWaypoints = bars.map(b => encodeURIComponent(b.name + ", " + b.address)).join("/");
     const fullGmapsUrl = gmapsBase + gmapsWaypoints + "/@46.521,6.632,15z/data=!4m2!4m1!3e2";
@@ -372,7 +395,7 @@
     document.getElementById('gmapsRouteLink').href = fullGmapsUrl;
     document.getElementById('headerGmapsBtn').href = fullGmapsUrl;
 
-    // Rendu de la liste
+    // Rendu de la liste linéaire
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -385,10 +408,7 @@
             #${b.id}
           </div>
           <div>
-            <div class="flex items-center gap-2 flex-wrap">
-              <h3 class="font-bold text-base text-white">${b.name}</h3>
-              <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">${b.type}</span>
-            </div>
+            <h3 class="font-bold text-base text-white">${b.name}</h3>
             <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
             <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
           </div>
@@ -403,7 +423,7 @@
       listContainer.appendChild(card);
     });
 
-    // Initialisation Leaflet OpenStreetMap
+    // Carte Leaflet
     const map = L.map('map', {
       scrollWheelZoom: false
     }).setView([46.5215, 6.6325], 15);
@@ -442,7 +462,6 @@
       markers[b.id] = marker;
     });
 
-    // Tracé de l'itinéraire sur la carte
     L.polyline(latLngs, {
       color: '#0A0A0A',
       weight: 3.5,
@@ -450,7 +469,6 @@
       opacity: 0.85
     }).addTo(map);
 
-    // Ajustement de taille automatique
     window.addEventListener('load', () => {
       setTimeout(() => { map.invalidateSize(); }, 200);
     });
@@ -474,32 +492,33 @@
       }
     }
 
-    // Gestion du direct et du simulateur
+    // Gestion du slider et de la position temporelle
     function parseMinutes(timeStr) {
       if (!timeStr || !timeStr.includes(':')) return 0;
       const clean = timeStr.replace('~', '').replace('+', '').trim();
       const parts = clean.split(':');
       let h = parseInt(parts[0], 10);
       const m = parseInt(parts[1], 10);
-      if (h < 12) h += 24;
+      if (h < 12) h += 24; // Gestion de 00:00 à 03:00
       return h * 60 + m;
     }
 
-    function checkPosition(customTime = null) {
-      let currentMinutes;
-      if (customTime) {
-        currentMinutes = parseMinutes(customTime);
-      } else {
-        const now = new Date();
-        let h = now.getHours();
-        const m = now.getMinutes();
-        if (h < 12) h += 24;
-        currentMinutes = h * 60 + m;
-      }
+    function formatMinutes(totalM) {
+      let h = Math.floor(totalM / 60);
+      let m = totalM % 60;
+      if (h >= 24) h -= 24;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    }
 
-      const statusEl = document.getElementById('currentStatusText');
+    const slider = document.getElementById('timeRangeSlider');
+    const displayTime = document.getElementById('sliderDisplayTime');
+    const statusEl = document.getElementById('currentStatusText');
+
+    function updateTimePosition(currentMinutes) {
+      displayTime.textContent = formatMinutes(currentMinutes);
+
       const startMin = parseMinutes("15:00");
-      const endMin = parseMinutes("02:00");
+      const endMin = parseMinutes("02:30");
 
       if (currentMinutes < startMin) {
         statusEl.textContent = "Le marathon n'a pas encore commencé (Rdv 15h00 au Bar #1)";
@@ -534,19 +553,24 @@
       }
     }
 
-    const timeSim = document.getElementById('timeSim');
-    timeSim.addEventListener('input', (e) => {
-      checkPosition(e.target.value);
+    slider.addEventListener('input', (e) => {
+      updateTimePosition(parseInt(e.target.value, 10));
     });
 
-    document.getElementById('resetTimeBtn').addEventListener('click', () => {
-      timeSim.value = "15:00";
-      checkPosition();
+    document.getElementById('liveClockBtn').addEventListener('click', () => {
+      const now = new Date();
+      let h = now.getHours();
+      const m = now.getMinutes();
+      if (h < 12) h += 24;
+      const current = Math.min(Math.max(h * 60 + m, 900), 1590);
+      slider.value = current;
+      updateTimePosition(current);
     });
 
-    checkPosition("15:00");
+    // Initialisation du slider à 15h00
+    updateTimePosition(900);
 
-    // Modal Calendrier
+    // Modal Calendrier & Gestion des 5 options
     const calBtn = document.getElementById('openCalBtn');
     const calDropdown = document.getElementById('calDropdown');
 
@@ -560,16 +584,21 @@
     });
 
     const title = encodeURIComponent("Barathon 2026 Lausanne");
-    const details = encodeURIComponent("12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 02h00 au Lapin Vert.");
+    const details = encodeURIComponent("12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 01h35 au Lapin Vert.");
     const locationStr = encodeURIComponent("Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne");
     
-    document.getElementById('calGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261205T140000Z/20261206T010000Z&details=${details}&location=${locationStr}`;
-    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
-    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
+    // 1. Google Calendar
+    document.getElementById('calGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261205T140000Z/20261206T013000Z&details=${details}&location=${locationStr}`;
+    
+    // 3. Outlook Web
+    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
+    
+    // 4. Office 365
+    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
 
-    document.getElementById('calIcs').addEventListener('click', (e) => {
-      e.preventDefault();
-      const icsData = [
+    // Générateur standard de chaîne .ICS
+    function createIcsString() {
+      return [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
         "PRODID:-//Barathon Lausanne//FR",
@@ -577,16 +606,34 @@
         "UID:barathon-lausanne-2026@lausanne",
         "DTSTAMP:20261027T120000Z",
         "DTSTART:20261205T140000Z",
-        "DTEND:20261206T010000Z",
+        "DTEND:20261206T013000Z",
         "SUMMARY:Barathon 2026 Lausanne",
-        "DESCRIPTION:12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 02h00 au Lapin Vert.",
+        "DESCRIPTION:12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 01h35 au Lapin Vert.",
         "LOCATION:Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne",
         "STATUS:CONFIRMED",
         "END:VEVENT",
         "END:VCALENDAR"
       ].join("\r\n");
+    }
 
-      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+    // 2. Apple Calendar (déclenchement adapté iOS & macOS)
+    document.getElementById('calApple').addEventListener('click', (e) => {
+      e.preventDefault();
+      const ics = createIcsString();
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', 'barathon-lausanne-2026.ics');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // 5. Télécharger .ics direct
+    document.getElementById('calIcs').addEventListener('click', (e) => {
+      e.preventDefault();
+      const ics = createIcsString();
+      const blob = new Blob([ics], { type: 'application/octet-stream;charset=utf-8' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.setAttribute('download', 'barathon-lausanne-2026.ics');
