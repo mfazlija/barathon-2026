@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -28,24 +28,15 @@
           fontFamily: {
             display: ['"Space Grotesk"', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace']
-          },
-          boxShadow: {
-            'brutal': '4px 4px 0px 0px #C6F135',
-            'brutal-white': '4px 4px 0px 0px #FFFFFF',
-            'brutal-sm': '2px 2px 0px 0px #C6F135'
           }
         }
       }
     }
   </script>
   <style>
-    /* Rendu sombre haute précision pour tuiles OpenStreetMap 100% libres (sans clé API) */
-    .dark-tiles .leaflet-tile {
-      filter: invert(92%) hue-rotate(180deg) brightness(85%) contrast(105%);
-    }
     .leaflet-container {
-      background: #0A0A0A !important;
       font-family: 'Space Grotesk', sans-serif;
+      background: #e5e7eb;
     }
     .custom-marker {
       background: #C6F135;
@@ -57,12 +48,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 2px 2px 0px #000;
-      transition: transform 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.15s ease-in-out;
     }
     .custom-marker:hover, .custom-marker.active {
       background: #FFFFFF;
-      transform: scale(1.2);
+      transform: scale(1.15);
     }
   </style>
 </head>
@@ -78,14 +70,14 @@
       </div>
       <div class="flex items-center gap-2">
         <a href="#carte" class="text-xs font-mono text-zinc-400 hover:text-white px-2 py-1">📍 Carte</a>
-        <a href="https://maps.app.goo.gl/3JgG45yPqjM5u3a86" target="_blank" rel="noopener noreferrer" id="headerGmapsBtn" class="bg-brand-lime text-black text-xs font-bold font-mono px-3 py-1.5 rounded hover:bg-white transition flex items-center gap-1">
+        <a href="#" id="headerGmapsBtn" target="_blank" rel="noopener noreferrer" class="bg-brand-lime text-black text-xs font-bold font-mono px-3 py-1.5 rounded hover:bg-white transition flex items-center gap-1">
           <span>⤢</span> Google Maps
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Bannière principale -->
+  <!-- Contenu principal -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     
     <div class="mb-8">
@@ -96,14 +88,14 @@
       
       <h1 class="text-4xl sm:text-6xl font-black uppercase tracking-tight leading-none mb-3">
         BARATHON 2026<br>
-        <span class="text-brand-lime underline decoration-wavy decoration-zinc-700">ÉDITION LAUSANNE</span>
+        <span class="bg-gradient-to-r from-brand-lime via-cyan-400 to-brand-purple bg-clip-text text-transparent">ÉDITION LAUSANNE</span>
       </h1>
       
       <p class="text-zinc-400 text-sm sm:text-base max-w-2xl font-normal mb-6">
         12 bars sélectionnés au cœur de Lausanne. Départ à 15h00 pour environ 50 minutes par étape et arrivée au dernier bar vers 01h30 - 01h45 pour clore la nuit.
       </p>
 
-      <!-- Métriques clés -->
+      <!-- Cartes métriques -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Rassemblement</div>
@@ -127,16 +119,15 @@
         </div>
       </div>
 
-      <!-- Action calendrier -->
+      <!-- Bouton Ajouter au calendrier avec menu déroulant -->
       <div class="mt-6 flex flex-wrap gap-3 items-center">
         <div class="relative inline-block text-left">
-          <button id="openCalBtn" type="button" class="bg-white text-black font-mono font-bold text-xs sm:text-sm px-4 py-2.5 rounded border-2 border-black hover:bg-brand-lime transition shadow-brutal flex items-center gap-2">
+          <button id="openCalBtn" type="button" class="bg-brand-card hover:bg-zinc-800 text-white font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg border border-brand-border hover:border-brand-lime transition flex items-center gap-2">
             <span>📅</span> Ajouter au calendrier
-            <span class="text-xs">▼</span>
+            <span class="text-xs text-zinc-400">▼</span>
           </button>
           
-          <!-- Dropdown des calendriers -->
-          <div id="calDropdown" class="hidden absolute left-0 mt-2 w-56 rounded-md shadow-2xl bg-zinc-900 border border-zinc-700 z-50 py-1 font-mono text-xs">
+          <div id="calDropdown" class="hidden absolute left-0 mt-2 w-56 rounded-lg shadow-2xl bg-zinc-900 border border-zinc-700 z-50 py-1 font-mono text-xs">
             <a href="#" id="calGoogle" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Google Calendar</a>
             <a href="#" id="calIcs" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Apple / Télécharger (.ics)</a>
             <a href="#" id="calOutlook" target="_blank" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">Outlook Web</a>
@@ -146,7 +137,7 @@
       </div>
     </div>
 
-    <!-- Outil "Où est le groupe en ce moment ?" -->
+    <!-- Outil "En direct le jour J" -->
     <div class="mb-8 p-4 bg-zinc-900/90 border border-zinc-800 rounded-xl">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-2">
@@ -162,7 +153,7 @@
       </div>
     </div>
 
-    <!-- Section Carte interactive -->
+    <!-- Carte du parcours -->
     <section id="carte" class="mb-10">
       <div class="flex items-center justify-between mb-3">
         <div>
@@ -173,7 +164,7 @@
           Ouvrir dans Google Maps ↗
         </a>
       </div>
-      <div id="map" class="h-80 sm:h-96 w-full rounded-xl border border-brand-border dark-tiles z-10 overflow-hidden"></div>
+      <div id="map" class="h-80 sm:h-96 w-full rounded-xl border border-brand-border overflow-hidden z-10 shadow-lg"></div>
     </section>
 
     <!-- Liste unique linéaire (1 colonne) -->
@@ -184,7 +175,7 @@
       </div>
 
       <div id="barsList" class="space-y-3 pt-2">
-        <!-- Généré dynamiquement en JS -->
+        <!-- Rempli par JavaScript -->
       </div>
     </section>
 
@@ -214,7 +205,6 @@
   </footer>
 
   <script>
-    // Données des 12 bars (horaires, temps de trajet piéton réalistes et géolocalisation)
     const bars = [
       {
         id: 1,
@@ -374,7 +364,7 @@
       }
     ];
 
-    // Génération du lien itinéraire piéton Google Maps multi-destinations
+    // Liens Google Maps multi-étapes
     const gmapsBase = "https://www.google.com/maps/dir/";
     const gmapsWaypoints = bars.map(b => encodeURIComponent(b.name + ", " + b.address)).join("/");
     const fullGmapsUrl = gmapsBase + gmapsWaypoints + "/@46.521,6.632,15z/data=!4m2!4m1!3e2";
@@ -382,7 +372,7 @@
     document.getElementById('gmapsRouteLink').href = fullGmapsUrl;
     document.getElementById('headerGmapsBtn').href = fullGmapsUrl;
 
-    // Rendu de la liste linéaire des bars
+    // Rendu de la liste
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -413,15 +403,14 @@
       listContainer.appendChild(card);
     });
 
-    // Initialisation de la carte Leaflet avec OpenStreetMap (sans aucune clé API requise)
+    // Initialisation Leaflet OpenStreetMap
     const map = L.map('map', {
       scrollWheelZoom: false
     }).setView([46.5215, 6.6325], 15);
 
-    // Tuiles OpenStreetMap officielles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
     const latLngs = [];
@@ -439,7 +428,7 @@
 
       const marker = L.marker([b.lat, b.lng], { icon: icon }).addTo(map);
       marker.bindPopup(`
-        <div style="font-family:'Space Grotesk',sans-serif; color:#000; padding:2px;">
+        <div style="font-family:'Space Grotesk',sans-serif; color:#111; padding:2px;">
           <div style="font-weight:bold; font-size:13px;">#${b.id} ${b.name}</div>
           <div style="font-size:11px; color:#444; font-family:'JetBrains Mono';">${b.in} - ${b.out} (${b.duration})</div>
           <div style="font-size:11px; margin-top:2px;">${b.address}</div>
@@ -453,13 +442,18 @@
       markers[b.id] = marker;
     });
 
-    // Tracé de la ligne reliant les 12 bars
+    // Tracé de l'itinéraire sur la carte
     L.polyline(latLngs, {
-      color: '#C6F135',
-      weight: 3,
+      color: '#0A0A0A',
+      weight: 3.5,
       dashArray: '6, 6',
-      opacity: 0.9
+      opacity: 0.85
     }).addTo(map);
+
+    // Ajustement de taille automatique
+    window.addEventListener('load', () => {
+      setTimeout(() => { map.invalidateSize(); }, 200);
+    });
 
     function highlightBar(id, panTo = true) {
       document.querySelectorAll('#barsList > div').forEach(el => {
@@ -480,14 +474,14 @@
       }
     }
 
-    // Gestion de l'heure courante / simulateur
+    // Gestion du direct et du simulateur
     function parseMinutes(timeStr) {
       if (!timeStr || !timeStr.includes(':')) return 0;
       const clean = timeStr.replace('~', '').replace('+', '').trim();
       const parts = clean.split(':');
       let h = parseInt(parts[0], 10);
       const m = parseInt(parts[1], 10);
-      if (h < 12) h += 24; // Gestion de minuit à 04h00
+      if (h < 12) h += 24;
       return h * 60 + m;
     }
 
@@ -527,7 +521,7 @@
         } else if (i < bars.length - 1) {
           const nextInM = parseMinutes(bars[i+1].in);
           if (currentMinutes > outM && currentMinutes < nextInM) {
-            statusEl.innerHTML = `En transition à pied vers <span class="underline">#${bars[i+1].id} ${bars[i+1].name}</span>`;
+            statusEl.innerHTML = `En transition à pied vers <span class="underline text-brand-lime">#${bars[i+1].id} ${bars[i+1].name}</span>`;
             highlightBar(bars[i+1].id, false);
             return;
           }
@@ -535,7 +529,7 @@
       }
 
       if (activeBar) {
-        statusEl.innerHTML = `Actuellement au <span class="underline">Bar #${activeBar.id} : ${activeBar.name}</span> (jusqu'à ${activeBar.out})`;
+        statusEl.innerHTML = `Actuellement au <span class="underline text-brand-lime">Bar #${activeBar.id} : ${activeBar.name}</span> (jusqu'à ${activeBar.out})`;
         highlightBar(activeBar.id, false);
       }
     }
@@ -552,7 +546,7 @@
 
     checkPosition("15:00");
 
-    // Modal Calendrier Multi-plateformes
+    // Modal Calendrier
     const calBtn = document.getElementById('openCalBtn');
     const calDropdown = document.getElementById('calDropdown');
 
@@ -565,21 +559,14 @@
       calDropdown.classList.add('hidden');
     });
 
-    // Liens Calendrier (Samedi 5 Décembre 2026 de 15h00 à 02h00 le 6 Décembre)
     const title = encodeURIComponent("Barathon 2026 Lausanne");
     const details = encodeURIComponent("12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 02h00 au Lapin Vert.");
-    const location = encodeURIComponent("Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne");
+    const locationStr = encodeURIComponent("Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne");
     
-    // Google Calendar (Format UTC: 20261205T140000Z / 20261206T010000Z car UTC+1 en hiver)
-    document.getElementById('calGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261205T140000Z/20261206T010000Z&details=${details}&location=${location}`;
-    
-    // Outlook Web
-    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${location}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
-    
-    // Office 365
-    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${location}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
+    document.getElementById('calGoogle').href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261205T140000Z/20261206T010000Z&details=${details}&location=${locationStr}`;
+    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
+    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:00:00`;
 
-    // Générateur fichier .ics direct
     document.getElementById('calIcs').addEventListener('click', (e) => {
       e.preventDefault();
       const icsData = [
