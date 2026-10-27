@@ -56,7 +56,6 @@
       background: #FFFFFF;
       transform: scale(1.15);
     }
-    /* Slider tactile optimisé pour smartphone */
     input[type=range] {
       touch-action: pan-x;
     }
@@ -113,7 +112,7 @@
       </h1>
       
       <p class="text-zinc-400 text-sm sm:text-base max-w-2xl font-normal mb-6">
-        12 bars sélectionnés au cœur de Lausanne. Départ à 15h00 pour environ 50 minutes par étape et arrivée au dernier bar vers 01h35 pour clore la nuit.
+        12 bars sélectionnés au cœur de Lausanne. Départ à 15h00 pour environ 48 minutes par étape et arrivée au dernier bar à 01h33 pour clore la nuit.
       </p>
 
       <!-- Cartes métriques -->
@@ -125,22 +124,22 @@
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Dernier bar</div>
-          <div class="text-cyan-400 text-base font-bold mt-1">~01:35</div>
+          <div class="text-cyan-400 text-base font-bold mt-1">01:33</div>
           <div class="text-[11px] text-zinc-400">Le Lapin Vert</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Moyenne par bar</div>
-          <div class="text-purple-400 text-base font-bold mt-1">~50 min</div>
+          <div class="text-purple-400 text-base font-bold mt-1">~49 min</div>
           <div class="text-[11px] text-zinc-400">12 établissements</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Distance totale</div>
           <div class="text-amber-400 text-base font-bold mt-1">4.2 km</div>
-          <div class="text-[11px] text-zinc-400">À pied (~1h15 cumulées)</div>
+          <div class="text-[11px] text-zinc-400">À pied (~1h45 cumulées)</div>
         </div>
       </div>
 
-      <!-- Bouton Calendrier avec options ciblées -->
+      <!-- Bouton Calendrier avec ciblage natif mobile -->
       <div class="mt-6 flex flex-wrap gap-3 items-center">
         <div class="relative inline-block text-left">
           <button id="openCalBtn" type="button" class="bg-brand-card hover:bg-zinc-800 text-white font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg border border-brand-border hover:border-brand-lime transition flex items-center gap-2">
@@ -149,7 +148,7 @@
           </button>
           
           <div id="calDropdown" class="hidden absolute left-0 mt-2 w-64 rounded-lg shadow-2xl bg-zinc-900 border border-zinc-700 z-50 py-1 font-mono text-xs">
-            <a href="#" id="calGoogle" target="_blank" rel="noopener noreferrer" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">1. Google Agenda</a>
+            <a href="#" id="calGoogle" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">1. Google Agenda</a>
             <a href="#" id="calApple" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">2. Apple Calendrier</a>
             <a href="#" id="calOutlook" target="_blank" rel="noopener noreferrer" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">3. Outlook</a>
             <a href="#" id="calOffice" target="_blank" rel="noopener noreferrer" class="block px-4 py-2.5 text-zinc-200 hover:bg-zinc-800 hover:text-brand-lime">4. Office 365</a>
@@ -178,7 +177,7 @@
         <input type="range" id="timeRangeSlider" min="900" max="1590" step="5" value="900" class="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C6F135]">
         <div class="flex justify-between text-[10px] font-mono text-zinc-500 px-0.5">
           <span>15:00 (Départ)</span>
-          <span>19:30</span>
+          <span>19:40</span>
           <span>23:30</span>
           <span>02:30 (Fin)</span>
         </div>
@@ -210,7 +209,7 @@
     <section class="space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-brand-border">
         <h2 class="text-lg font-bold uppercase tracking-tight">Les 12 Étapes du Barathon</h2>
-        <span class="font-mono text-xs text-zinc-500">15h00 ➔ 02h00</span>
+        <span class="font-mono text-xs text-zinc-500">15h00 ➔ 02h30</span>
       </div>
 
       <div id="barsList" class="space-y-3 pt-2">
@@ -244,6 +243,7 @@
   </footer>
 
   <script>
+    // Parcours recalculé avec +20% de marge de marche et relief lausannois
     const bars = [
       {
         id: 1,
@@ -254,7 +254,7 @@
         in: "15:00",
         out: "15:45",
         duration: "45 min",
-        nextWalk: "10 min de marche (montée vers Deux-Marchés)",
+        nextWalk: "12 min de marche (+20% - montée vers Deux-Marchés)",
         note: "Point de rassemblement officiel. Vérification des troupes et première tournée."
       },
       {
@@ -263,10 +263,10 @@
         address: "Rue des Deux-Marchés 13, 1005 Lausanne",
         lat: 46.5242,
         lng: 6.6322,
-        in: "15:55",
-        out: "16:40",
+        in: "15:57",
+        out: "16:42",
         duration: "45 min",
-        nextWalk: "8 min de marche (remontée vers Rue de la Tour)",
+        nextWalk: "10 min de marche (+20% - remontée vers Rue de la Tour)",
         note: "Ambiance chaleureuse, grand comptoir et esprit café lausannois authentique."
       },
       {
@@ -275,10 +275,10 @@
         address: "Rue de la Tour 4, 1004 Lausanne",
         lat: 46.5249,
         lng: 6.6298,
-        in: "16:48",
-        out: "17:35",
+        in: "16:52",
+        out: "17:39",
         duration: "47 min",
-        nextWalk: "7 min de marche (descente vers Riponne / Madeleine)",
+        nextWalk: "9 min de marche (+20% - descente vers Riponne / Madeleine)",
         note: "Large sélection de bières artisanales locales et pression pointue."
       },
       {
@@ -287,10 +287,10 @@
         address: "Rue Madeleine 18, 1003 Lausanne",
         lat: 46.5224,
         lng: 6.6315,
-        in: "17:42",
-        out: "18:30",
-        duration: "48 min",
-        nextWalk: "7 min de marche (descente vers Place Centrale & Grand-Pont)",
+        in: "17:48",
+        out: "18:35",
+        duration: "47 min",
+        nextWalk: "8 min de marche (+20% - descente vers Place Centrale & Grand-Pont)",
         note: "Énergie survoltée au-dessus de la place de la Riponne."
       },
       {
@@ -299,10 +299,10 @@
         address: "Place de l'Europe, 1003 Lausanne",
         lat: 46.5208,
         lng: 6.6308,
-        in: "18:37",
-        out: "19:25",
-        duration: "48 min",
-        nextWalk: "8 min de marche (traversée vers Rue Enning)",
+        in: "18:43",
+        out: "19:30",
+        duration: "47 min",
+        nextWalk: "10 min de marche (+20% - traversée vers Rue Enning)",
         note: "Cadre architectural emblématique sous les ponts de la ville."
       },
       {
@@ -311,10 +311,10 @@
         address: "Rue Enning 10, 1003 Lausanne",
         lat: 46.5195,
         lng: 6.6355,
-        in: "19:33",
-        out: "20:25",
-        duration: "52 min",
-        nextWalk: "5 min de marche (remontée vers Marterey)",
+        in: "19:40",
+        out: "20:30",
+        duration: "50 min",
+        nextWalk: "6 min de marche (+20% - remontée vers Marterey)",
         note: "Mi-parcours ! Possibilité pour chacun de grignoter un burger ou des tapas au comptoir."
       },
       {
@@ -323,10 +323,10 @@
         address: "Rue Marterey 36, 1005 Lausanne",
         lat: 46.5198,
         lng: 6.6382,
-        in: "20:30",
-        out: "21:20",
-        duration: "50 min",
-        nextWalk: "9 min de marche (descente Marterey vers Saint-François / Grotte)",
+        in: "20:36",
+        out: "21:25",
+        duration: "49 min",
+        nextWalk: "11 min de marche (+20% - descente Marterey vers Saint-François / Grotte)",
         note: "Cocktails maison, bières et ambiance feutrée pour relancer la deuxième mi-temps."
       },
       {
@@ -335,10 +335,10 @@
         address: "Rue de la Grotte 2, 1003 Lausanne",
         lat: 46.5183,
         lng: 6.6329,
-        in: "21:29",
-        out: "22:20",
-        duration: "51 min",
-        nextWalk: "11 min de marche (traversée vers le Flon)",
+        in: "21:36",
+        out: "22:25",
+        duration: "49 min",
+        nextWalk: "13 min de marche (+20% - traversée vers le Flon)",
         note: "Pépites brassicoles rares avant d'attaquer la descente vers le Flon."
       },
       {
@@ -347,10 +347,10 @@
         address: "Rue de Genève 17, 1003 Lausanne",
         lat: 46.5209,
         lng: 6.6272,
-        in: "22:31",
-        out: "23:25",
-        duration: "54 min",
-        nextWalk: "3 min de marche (au cœur du Flon)",
+        in: "22:38",
+        out: "23:28",
+        duration: "50 min",
+        nextWalk: "4 min de marche (+20% - au cœur du Flon)",
         note: "Ambiance sonore qui monte d'un cran, billards et esprit pub."
       },
       {
@@ -359,10 +359,10 @@
         address: "Rue de Genève 8, 1003 Lausanne",
         lat: 46.5218,
         lng: 6.6268,
-        in: "23:28",
-        out: "00:20",
-        duration: "52 min",
-        nextWalk: "3 min de marche (dans la même rue)",
+        in: "23:32",
+        out: "00:22",
+        duration: "50 min",
+        nextWalk: "4 min de marche (+20% - dans la même rue)",
         note: "Passage aux shooters et planteurs dans une ambiance de cale de navire."
       },
       {
@@ -371,10 +371,10 @@
         address: "Rue de Genève 17, 1003 Lausanne",
         lat: 46.5206,
         lng: 6.6265,
-        in: "00:23",
-        out: "01:20",
-        duration: "57 min",
-        nextWalk: "15 min de marche (forte montée Flon ➔ Cité via Curtat)",
+        in: "00:26",
+        out: "01:15",
+        duration: "49 min",
+        nextWalk: "18 min de marche (+20% - forte montée Flon ➔ Cité via Curtat)",
         note: "Rock'n'roll, guitares et bières fraîches avant l'ultime ascension vers la Cité."
       },
       {
@@ -383,7 +383,7 @@
         address: "Ruelle du Lapin-Vert, 1005 Lausanne",
         lat: 46.5228,
         lng: 6.6352,
-        in: "01:35",
+        in: "01:33",
         out: "~02:30+",
         duration: "Fin de nuit",
         nextWalk: "Terminus / Derniers verres",
@@ -477,7 +477,6 @@
       setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
-    // scrollTarget = true uniquement lors d'un clic volontaire (pas pendant le slide)
     function highlightBar(id, panTo = false, scrollTarget = false) {
       document.querySelectorAll('#barsList > div').forEach(el => {
         el.classList.remove('border-brand-lime', 'bg-zinc-900');
@@ -499,7 +498,7 @@
       }
     }
 
-    // Gestion du slider
+    // Gestion du slider et position temporelle
     function parseMinutes(timeStr) {
       if (!timeStr || !timeStr.includes(':')) return 0;
       const clean = timeStr.replace('~', '').replace('+', '').trim();
@@ -562,7 +561,6 @@
       }
     }
 
-    // Le slide met à jour le texte sans provoquer aucun saut de page
     slider.addEventListener('input', (e) => {
       updateTimePosition(parseInt(e.target.value, 10));
     });
@@ -577,10 +575,9 @@
       updateTimePosition(current);
     });
 
-    // Initialisation
     updateTimePosition(900);
 
-    // Modal Calendrier & Gestion des options
+    // Modal Calendrier & Gestion des plateformes natives
     const calBtn = document.getElementById('openCalBtn');
     const calDropdown = document.getElementById('calDropdown');
 
@@ -593,20 +590,53 @@
       calDropdown.classList.add('hidden');
     });
 
-    const title = encodeURIComponent("Barathon 2026 Lausanne");
-    const details = encodeURIComponent("12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 01h35 au Lapin Vert.");
-    const locationStr = encodeURIComponent("Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne");
+    const eventTitle = "BARATHON 2026 Lausanne";
+    const eventLocation = "Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne";
     
-    // 1. Google Agenda (URL responsive moderne pour mobile et appli)
-    document.getElementById('calGoogle').href = `https://calendar.google.com/calendar/r/eventedit?text=${title}&dates=20261205T140000Z/20261206T013000Z&details=${details}&location=${locationStr}`;
-    
-    // 3. Outlook
-    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
-    
-    // 4. Office 365
-    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${title}&body=${details}&location=${locationStr}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
+    // Descriptif complet avec les 12 bars et horaires
+    const eventDescription = [
+      "BARATHON 2026 — ÉDITION LAUSANNE",
+      "Samedi 5 décembre 2026",
+      "",
+      "PROGRAMME DES 12 ÉTAPES :",
+      "1. 15:00 - 15:45 : Café Saint-Pierre (Pl. Benjamin-Constant 1)",
+      "2. 15:57 - 16:42 : La Couronne d'Or (Rue des Deux-Marchés 13)",
+      "3. 16:52 - 17:39 : Le Cylure Binchstub (Rue de la Tour 4)",
+      "4. 17:48 - 18:35 : The Great Escape (Rue Madeleine 18)",
+      "5. 18:43 - 19:30 : Les Arches (Place de l'Europe)",
+      "6. 19:40 - 20:30 : Le Bleu Lézard (Rue Enning 10)",
+      "7. 20:36 - 21:25 : Le Java (Rue Marterey 36)",
+      "8. 21:36 - 22:25 : La Capsule (Rue de la Grotte 2)",
+      "9. 22:38 - 23:28 : King Size Pub (Rue de Genève 17)",
+      "10. 23:32 - 00:22 : Barberousse (Rue de Genève 8)",
+      "11. 00:26 - 01:15 : Taco's Bar (Rue de Genève 17)",
+      "12. 01:33 - 02:30+ : Le Lapin Vert (Ruelle du Lapin-Vert)",
+      "",
+      "Note : Hydratation conseillée (1 verre d'eau par bar) et ravitaillement libre au fil des étapes."
+    ].join("\n");
 
-    function getIcsContent() {
+    const titleEncoded = encodeURIComponent(eventTitle);
+    const detailsEncoded = encodeURIComponent(eventDescription);
+    const locationEncoded = encodeURIComponent(eventLocation);
+
+    // 1. Google Agenda (Gestion intelligente Desktop vs Application native Android)
+    document.getElementById('calGoogle').addEventListener('click', (e) => {
+      e.preventDefault();
+      const gcalWebUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titleEncoded}&dates=20261205T140000Z/20261206T013000Z&details=${detailsEncoded}&location=${locationEncoded}`;
+      
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      if (isAndroid) {
+        // Déclenche l'ouverture native de l'application Google Agenda installée
+        const intentUrl = `intent://calendar.google.com/calendar/render?action=TEMPLATE&text=${titleEncoded}&dates=20261205T140000Z/20261206T013000Z&details=${detailsEncoded}&location=${locationEncoded}#Intent;scheme=https;package=com.google.android.calendar;end`;
+        window.location.href = intentUrl;
+      } else {
+        window.open(gcalWebUrl, '_blank');
+      }
+    });
+
+    // Générateur fichier .ICS standardisé RFC 5545
+    function getIcsString() {
+      const icsDesc = eventDescription.replace(/\n/g, "\\n");
       return [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
@@ -616,33 +646,45 @@
         "DTSTAMP:20261027T120000Z",
         "DTSTART:20261205T140000Z",
         "DTEND:20261206T013000Z",
-        "SUMMARY:Barathon 2026 Lausanne",
-        "DESCRIPTION:12 bars sélectionnés au coeur de Lausanne. Départ à 15h00 au Café Saint-Pierre et arrivée vers 01h35 au Lapin Vert.",
-        "LOCATION:Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne",
+        `SUMMARY:${eventTitle}`,
+        `DESCRIPTION:${icsDesc}`,
+        `LOCATION:${eventLocation}`,
         "STATUS:CONFIRMED",
         "END:VEVENT",
         "END:VCALENDAR"
       ].join("\r\n");
     }
 
-    // 2. Apple Calendrier (déclenche directement la modale native d'ajout iOS/macOS)
+    // 2. Apple Calendrier (Ouverture directe de la modale native iOS sur smartphone)
     document.getElementById('calApple').addEventListener('click', (e) => {
       e.preventDefault();
-      const ics = getIcsContent();
-      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = window.URL.createObjectURL(blob);
-      link.setAttribute('download', 'barathon-lausanne-2026.ics');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const icsData = getIcsString();
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isIOS) {
+        // Ouvre immédiatement l'application native Calendrier d'iOS
+        window.location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsData);
+      } else {
+        const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute('download', 'barathon-lausanne-2026.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     });
 
-    // 5. Téléchargement direct .ics
+    // 3. Outlook
+    document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${titleEncoded}&body=${detailsEncoded}&location=${locationEncoded}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
+    
+    // 4. Office 365
+    document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${titleEncoded}&body=${detailsEncoded}&location=${locationEncoded}&startdt=2026-12-05T15:00:00&enddt=2026-12-06T02:30:00`;
+
+    // 5. Téléchargement brut du fichier .ics
     document.getElementById('calIcs').addEventListener('click', (e) => {
       e.preventDefault();
-      const ics = getIcsContent();
-      const blob = new Blob([ics], { type: 'application/octet-stream;charset=utf-8' });
+      const blob = new Blob([getIcsString()], { type: 'application/octet-stream;charset=utf-8' });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.setAttribute('download', 'barathon-lausanne-2026.ics');
