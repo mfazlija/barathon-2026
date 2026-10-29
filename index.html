@@ -361,7 +361,7 @@
       }
     ];
 
-    // Rendu de la liste avec bordure gris clair bien visible (border-zinc-500)
+    // Rendu de la liste avec bordure gris clair délimitant chaque case
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -412,7 +412,6 @@
       }
     }
 
-    // Gestion du surlignage : rétablit la bordure gris clair (border-zinc-500) sur les bars inactifs
     function highlightActiveBar(id, scrollTarget = false) {
       document.querySelectorAll('#barsList > div').forEach(el => {
         el.classList.remove('border-brand-lime', 'border-2', 'bg-zinc-900');
@@ -515,6 +514,7 @@
       updateNavButtons(1, null);
     });
 
+    // Décompte calendaire pur (J-1 toute la journée du 11 déc., badge masqué dès minuit le 12 déc.)
     function checkLiveSystemState() {
       const now = new Date();
       const isDuringEvent = (now >= EVENT_START && now <= EVENT_END);
@@ -543,9 +543,16 @@
         liveLabel.className = "font-mono text-xs uppercase tracking-wider text-zinc-400 font-bold";
         liveLabel.textContent = "SIMULATEUR";
 
-        const daysRemaining = Math.max(0, Math.ceil((EVENT_START - now) / (1000 * 60 * 60 * 24)));
-        liveBadge.textContent = `J-${daysRemaining}`;
-        liveBadge.classList.remove('hidden');
+        const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const eventMidnight = new Date(2026, 11, 12);
+        const diffDays = Math.round((eventMidnight - todayMidnight) / (1000 * 60 * 60 * 24));
+
+        if (diffDays <= 0) {
+          liveBadge.classList.add('hidden');
+        } else {
+          liveBadge.textContent = `J-${diffDays}`;
+          liveBadge.classList.remove('hidden');
+        }
 
         slider.value = 900;
         displayTime.textContent = "15:00";
