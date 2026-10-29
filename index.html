@@ -87,7 +87,7 @@
       </h1>
       
       <p class="text-zinc-400 text-sm sm:text-base max-w-2xl font-normal mb-6">
-        12 bars sélectionnés du bas de la ville (Sous-Gare) jusqu'au sommet de la Cité. Départ à 15h00, temps de séjour calibrés et arrivée au dernier bar vers 01h20.
+        12 bars sélectionnés du bas de la ville jusqu'aux hauteurs de Lausanne. Départ à 15h00 au Café du Simplon et grand final chez CTM.
       </p>
 
       <!-- Cartes métriques -->
@@ -99,18 +99,18 @@
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Dernier bar</div>
-          <div class="text-cyan-400 text-base font-bold mt-1">~01:20</div>
-          <div class="text-[11px] text-zinc-400">Le Lapin Vert</div>
+          <div class="text-cyan-400 text-base font-bold mt-1">~01:16</div>
+          <div class="text-[11px] text-zinc-400">CTM - Chez Ta Mère</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Moyenne par bar</div>
-          <div class="text-purple-400 text-base font-bold mt-1">~48 min</div>
+          <div class="text-purple-400 text-base font-bold mt-1">~49 min</div>
           <div class="text-[11px] text-zinc-400">12 établissements</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Distance totale</div>
-          <div class="text-amber-400 text-base font-bold mt-1">4.2 km</div>
-          <div class="text-[11px] text-zinc-400">À pied (~1h33 avec +75%)</div>
+          <div class="text-amber-400 text-base font-bold mt-1">4.5 km</div>
+          <div class="text-[11px] text-zinc-400">À pied (~1h25 de marche)</div>
         </div>
       </div>
 
@@ -224,7 +224,7 @@
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
 
-    // 12 bars ordonnés géographiquement du bas vers le haut avec Google + 75%
+    // Ordre exact validé avec étape joker YOLO et final CTM
     const bars = [
       {
         id: 1,
@@ -233,8 +233,8 @@
         in: "15:00",
         out: "15:45",
         duration: "45 min",
-        nextWalk: "14 min (Google 8 min + 75% - montée Sous-Gare)",
-        note: "Point de rassemblement officiel tout en bas de la ville. Première tournée et vérification des troupes."
+        nextWalk: "14 min de marche",
+        note: "Point de rassemblement officiel Sous-Gare. Première tournée et vérification des troupes."
       },
       {
         id: 2,
@@ -243,108 +243,108 @@
         in: "15:59",
         out: "16:45",
         duration: "46 min",
-        nextWalk: "7 min (Google 4 min + 75% - vers Benjamin-Constant)",
+        nextWalk: "6 min de marche",
         note: "Troquet rétro chaleureux au grand zinc pour lancer le peloton."
       },
       {
         id: 3,
         name: "Café Saint-Pierre",
         address: "Place Benjamin-Constant 1, 1003 Lausanne",
-        in: "16:52",
+        in: "16:51",
         out: "17:40",
-        duration: "48 min",
-        nextWalk: "9 min (Google 5 min + 75% - traversée Pont Bessières)",
-        note: "Ambiance branchée au cœur de Saint-François / Bessières."
+        duration: "49 min",
+        nextWalk: "11 min de marche",
+        note: "Ambiance branchée et festive au cœur de Saint-François / Bessières."
       },
       {
         id: 4,
-        name: "CTM - Chez Ta Mère",
-        address: "Rue Saint-Martin 9, 1003 Lausanne",
-        in: "17:49",
-        out: "18:35",
-        duration: "46 min",
-        nextWalk: "5 min (Google 3 min + 75% - montée Deux-Marchés)",
-        note: "Apéro convivial et détendu au pied de la colline de la Cité."
+        name: "Barberousse Lausanne",
+        address: "Rue de Genève 8, 1003 Lausanne",
+        in: "17:51",
+        out: "18:40",
+        duration: "49 min",
+        nextWalk: "3 min de marche",
+        note: "Taverne pirate festive et passage aux shooters et planteurs dans la cale."
       },
       {
         id: 5,
-        name: "Café La Couronne d'Or",
-        address: "Rue des Deux-Marchés 13, 1005 Lausanne",
-        in: "18:40",
-        out: "19:28",
-        duration: "48 min",
-        nextWalk: "11 min (Google 6 min + 75% - traversée Riponne)",
-        note: "Cadre boisé historique du vieux Lausanne et bières locales."
+        name: "King Size Pub & Food",
+        address: "Rue de Genève 17, 1003 Lausanne",
+        in: "18:43",
+        out: "19:30",
+        duration: "47 min",
+        nextWalk: "3 min de marche",
+        note: "Grand pub incontournable du Flon, grand écran, billards et bières fraîches."
       },
       {
         id: 6,
-        name: "Cylure Binchroom Lausanne",
-        address: "Rue de la Tour 4, 1004 Lausanne",
-        in: "19:39",
-        out: "20:28",
-        duration: "49 min",
-        nextWalk: "7 min (Google 4 min + 75% - vers Madeleine)",
-        note: "Le paradis de la bière artisanale et micro-brasserie pointue."
+        name: "YOLO (on verra bien sur le moment)",
+        address: "Flon / Centre-ville, 1003 Lausanne",
+        in: "19:33",
+        out: "20:25",
+        duration: "52 min",
+        nextWalk: "12 min de marche",
+        note: "Étape joker ! Vote en direct de la troupe ou inspiration du moment selon l'envie et la soif."
       },
       {
         id: 7,
-        name: "La Société",
-        address: "Rue de la Madeleine, 1003 Lausanne",
-        in: "20:35",
-        out: "21:22",
-        duration: "47 min",
-        nextWalk: "4 min (Google 2 min + 75% - quelques mètres en montée)",
-        note: "Bar de caractère au centre historique pour embrayer sur la soirée."
+        name: "Cylure Binchroom Lausanne",
+        address: "Rue de la Tour 4, 1004 Lausanne",
+        in: "20:37",
+        out: "21:25",
+        duration: "48 min",
+        nextWalk: "7 min de marche",
+        note: "Le temple de la craft beer artisanale et bières pression locales pointues."
       },
       {
         id: 8,
-        name: "The Great Escape",
-        address: "Rue Madeleine 18, 1003 Lausanne",
-        in: "21:26",
-        out: "22:15",
-        duration: "49 min",
-        nextWalk: "11 min (Google 6 min + 75% - descente vers le Flon)",
-        note: "Grosse ambiance survoltée au balcon de la Riponne avant de plonger dans le Flon."
+        name: "La Société",
+        address: "Rue de la Madeleine, 1003 Lausanne",
+        in: "21:32",
+        out: "22:20",
+        duration: "48 min",
+        nextWalk: "5 min de marche",
+        note: "Bar de caractère au centre historique pour embrayer sur la deuxième partie de nuit."
       },
       {
         id: 9,
-        name: "King Size Pub & Food",
-        address: "Rue de Genève 17, 1003 Lausanne",
-        in: "22:26",
+        name: "Vieux-Lausanne Restaurant & Giraf Bar",
+        address: "Rue Pierre-Viret 6, 1003 Lausanne",
+        in: "22:25",
         out: "23:15",
-        duration: "49 min",
-        nextWalk: "4 min (Google 2 min + 75% - même rue au Flon)",
-        note: "Grand pub emblématique du Flon, musique et grignotage."
+        duration: "50 min",
+        nextWalk: "7 min de marche",
+        note: "L'institution du Giraf Bar au pied de la Cathédrale pour relancer les machines."
       },
       {
         id: 10,
-        name: "Barberousse Lausanne",
-        address: "Rue de Genève 8, 1003 Lausanne",
-        in: "23:19",
-        out: "00:08",
-        duration: "49 min",
-        nextWalk: "14 min (Google 8 min + 75% - montée Pierre-Viret)",
-        note: "Taverne pirate festive et passage aux planteurs dans la cale."
+        name: "Café La Couronne d'Or",
+        address: "Rue des Deux-Marchés 13, 1005 Lausanne",
+        in: "23:22",
+        out: "00:10",
+        duration: "48 min",
+        nextWalk: "8 min de marche",
+        note: "Cadre boisé historique du vieux Lausanne et ambiance troquet authentique."
       },
       {
         id: 11,
-        name: "Vieux-Lausanne Restaurant & Giraf Bar",
-        address: "Rue Pierre-Viret 6, 1003 Lausanne",
-        in: "00:22",
-        out: "01:12",
-        duration: "50 min",
-        nextWalk: "7 min (Google 4 min + 75% - montée Escaliers du Marché)",
-        note: "Le mythique Giraf Bar au pied de la Cathédrale pour l'avant-dernière tournée."
+        name: "Le Lapin Vert",
+        address: "Ruelle du Lapin-Vert, 1005 Lausanne",
+        in: "00:18",
+        out: "01:10",
+        duration: "52 min",
+        nextWalk: "6 min de marche",
+        note: "Le plus ancien bar de nuit de Lausanne perché sur la Cité pour une ambiance survoltée."
       },
       {
         id: 12,
-        name: "Le Lapin Vert",
-        address: "Ruelle du Lapin-Vert, 1005 Lausanne",
-        in: "01:19",
+        name: "CTM - Chez Ta Mère",
+        address: "Rue Saint-Martin 9, 1003 Lausanne",
+        in: "01:16",
         out: "~02:30+",
         duration: "Fin de nuit",
         nextWalk: "Terminus / Derniers verres",
-        note: "Le plus ancien bar de nuit de Lausanne, au sommet de la Cité, pour trinquer à la victoire !"
+        note: "Le grand final du Barathon 2026 ! Dernières tournées pour célébrer les survivants."
       }
     ];
 
@@ -528,19 +528,19 @@
       "BARATHON 2026 LAUSANNE",
       "Samedi 12 décembre 2026",
       "",
-      "PROGRAMME DU BAS VERS LE HAUT DE LAUSANNE (Google +75%) :",
+      "PROGRAMME DES 12 ÉTAPES :",
       "1. 15:00 - 15:45 : Café du Simplon (Rue du Simplon 17)",
       "2. 15:59 - 16:45 : Bar Tabac (Rue Beau-Séjour 7)",
-      "3. 16:52 - 17:40 : Café Saint-Pierre (Pl. Benjamin-Constant 1)",
-      "4. 17:49 - 18:35 : CTM - Chez Ta Mère (Rue Saint-Martin 9)",
-      "5. 18:40 - 19:28 : Café La Couronne d'Or (Rue des Deux-Marchés 13)",
-      "6. 19:39 - 20:28 : Cylure Binchroom Lausanne (Rue de la Tour 4)",
-      "7. 20:35 - 21:22 : La Société (Rue de la Madeleine)",
-      "8. 21:26 - 22:15 : The Great Escape (Rue Madeleine 18)",
-      "9. 22:26 - 23:15 : King Size Pub & Food (Rue de Genève 17)",
-      "10. 23:19 - 00:08 : Barberousse Lausanne (Rue de Genève 8)",
-      "11. 00:22 - 01:12 : Vieux-Lausanne & Giraf Bar (Rue Pierre-Viret 6)",
-      "12. 01:19 - ~02:30+ : Le Lapin Vert (Ruelle du Lapin-Vert)",
+      "3. 16:51 - 17:40 : Café Saint-Pierre (Pl. Benjamin-Constant 1)",
+      "4. 17:51 - 18:40 : Barberousse Lausanne (Rue de Genève 8)",
+      "5. 18:43 - 19:30 : King Size Pub & Food (Rue de Genève 17)",
+      "6. 19:33 - 20:25 : YOLO (on verra bien sur le moment)",
+      "7. 20:37 - 21:25 : Cylure Binchroom Lausanne (Rue de la Tour 4)",
+      "8. 21:32 - 22:20 : La Société (Rue de la Madeleine)",
+      "9. 22:25 - 23:15 : Vieux-Lausanne & Giraf Bar (Rue Pierre-Viret 6)",
+      "10. 23:22 - 00:10 : Café La Couronne d'Or (Rue des Deux-Marchés 13)",
+      "11. 00:18 - 01:10 : Le Lapin Vert (Ruelle du Lapin-Vert)",
+      "12. 01:16 - ~02:30+ : CTM - Chez Ta Mère (Rue Saint-Martin 9)",
       "",
       "Carte My Maps : https://www.google.com/maps/d/viewer?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU",
       "",
