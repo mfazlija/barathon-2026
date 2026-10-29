@@ -361,7 +361,7 @@
       }
     ];
 
-    // Rendu de la liste des bars avec bascule automatique Apple Maps / Google Maps
+    // Rendu de la liste des bars sans icône devant le bouton
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -382,8 +382,8 @@
             <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
             <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
             <div id="nav-wrapper-${b.id}" class="mt-2.5 hidden">
-              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-300 hover:text-black border border-zinc-700 hover:border-brand-lime transition font-mono text-[11px] font-bold">
-                <span>🧭</span> S'y rendre (Itinéraire) ↗
+              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-300 hover:text-black border border-zinc-700 hover:border-brand-lime transition font-mono text-[11px] font-bold">
+                S'y rendre (Itinéraire) ↗
               </a>
             </div>
           </div>
