@@ -76,13 +76,6 @@
       border: 2px solid #000;
       cursor: grab;
     }
-    .redacted-box {
-      background: #27272A;
-      color: transparent;
-      user-select: none;
-      border-radius: 3px;
-      display: inline-block;
-    }
   </style>
 </head>
 <body class="bg-brand-black text-white font-display antialiased min-h-screen selection:bg-brand-lime selection:text-black">
@@ -126,12 +119,12 @@
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Rassemblement</div>
           <div class="text-brand-lime text-base font-bold mt-1">15:00</div>
-          <div id="statBar1" class="text-[11px] text-zinc-400">Café Saint-Pierre</div>
+          <div class="text-[11px] text-zinc-400">Café Saint-Pierre</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Dernier bar</div>
           <div class="text-cyan-400 text-base font-bold mt-1">01:50</div>
-          <div id="statBar12" class="text-[11px] text-zinc-400">Le Lapin Vert</div>
+          <div class="text-[11px] text-zinc-400">Le Lapin Vert</div>
         </div>
         <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
           <div class="text-zinc-500 uppercase">Moyenne par bar</div>
@@ -164,7 +157,7 @@
       </div>
     </div>
 
-    <!-- Outil "En direct" avec état dynamique (éteint avant le 12 déc.) -->
+    <!-- Outil "En direct / Simulateur" -->
     <div class="mb-8 p-4 bg-zinc-900/90 border border-zinc-800 rounded-xl">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
@@ -196,28 +189,12 @@
       </div>
     </div>
 
-    <!-- Bannière Teaser Countdown (visible avant le 15 nov.) -->
-    <div id="teaserBanner" class="hidden mb-10 p-5 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border-2 border-dashed border-zinc-700 rounded-xl text-center">
-      <div class="inline-block bg-brand-lime text-black font-mono text-xs font-black uppercase px-2 py-0.5 rounded mb-2">
-        🔒 TOP SECRET — LINEUP VERROUILLÉ
-      </div>
-      <h3 class="text-lg sm:text-2xl font-black uppercase tracking-tight text-white mb-2">
-        Révélation des 12 bars dans :
-      </h3>
-      <div id="teaserCountdown" class="font-mono text-xl sm:text-3xl font-black text-brand-lime tracking-wider my-2">
-        --j --h --m --s
-      </div>
-      <p class="text-xs text-zinc-400 font-mono max-w-lg mx-auto">
-        Les horaires et temps de marche sont d'ores et déjà calculés. Les noms précis des 12 établissements seront dévoilés le <strong>15 novembre 2026 à 00h00</strong>.
-      </p>
-    </div>
-
     <!-- Carte du parcours -->
     <section id="carte" class="mb-10">
       <div class="flex items-center justify-between mb-3">
         <div>
           <h2 class="text-xl font-bold uppercase tracking-tight">Carte du parcours</h2>
-          <p id="carteSubtitle" class="text-xs text-zinc-500 font-mono">Cliquez sur un numéro pour localiser l'étape dans la liste.</p>
+          <p class="text-xs text-zinc-500 font-mono">Cliquez sur un numéro pour localiser l'étape dans la liste.</p>
         </div>
         <a id="gmapsRouteLink" href="#" target="_blank" class="text-xs font-mono text-brand-lime hover:underline flex items-center gap-1">
           Ouvrir dans Google Maps ↗
@@ -225,11 +202,6 @@
       </div>
       <div class="relative rounded-xl border border-brand-border overflow-hidden shadow-lg">
         <div id="map" class="h-80 sm:h-96 w-full z-10"></div>
-        <div id="mapLockedOverlay" class="hidden absolute inset-0 bg-brand-black/80 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center p-6 text-center">
-          <div class="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-xl mb-3">🔒</div>
-          <div class="font-mono text-xs uppercase tracking-widest text-brand-lime font-bold mb-1">Tracé Satellite Verrouillé</div>
-          <div class="font-display font-bold text-base sm:text-lg text-white max-w-xs">Le parcours complet sera débloqué le 15 novembre.</div>
-        </div>
       </div>
     </section>
 
@@ -269,13 +241,8 @@
   </footer>
 
   <script>
-    // Configuration des dates clés (Événement décalé au 12 décembre 2026)
-    const REVEAL_DATE = new Date('2026-11-15T00:00:00');
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
-
-    // Déverrouillage automatique dès le 15 nov, ou via le hashtag #reveal pour prévisualiser
-    const isRevealed = (new Date() >= REVEAL_DATE) || window.location.hash === '#reveal' || window.location.search.includes('reveal=true');
 
     const bars = [
       {
@@ -288,8 +255,7 @@
         out: "15:48",
         duration: "48 min",
         nextWalk: "13 min (Google 9 min + 40%)",
-        note: "Point de rassemblement officiel. Vérification des troupes et première tournée.",
-        teaserHint: "Café de quartier emblématique du centre-ville"
+        note: "Point de rassemblement officiel. Vérification des troupes et première tournée."
       },
       {
         id: 2,
@@ -301,8 +267,7 @@
         out: "16:50",
         duration: "49 min",
         nextWalk: "8 min (Google 6 min + 40%)",
-        note: "Ambiance chaleureuse, grand comptoir et esprit café lausannois authentique.",
-        teaserHint: "Troquet historique boisé du vieux Lausanne"
+        note: "Ambiance chaleureuse, grand comptoir et esprit café lausannois authentique."
       },
       {
         id: 3,
@@ -314,8 +279,7 @@
         out: "17:48",
         duration: "50 min",
         nextWalk: "7 min (Google 5 min + 40%)",
-        note: "Large sélection de bières artisanales locales et pression pointue.",
-        teaserHint: "Repaire incontournable de la craft beer artisanale"
+        note: "Large sélection de bières artisanales locales et pression pointue."
       },
       {
         id: 4,
@@ -327,8 +291,7 @@
         out: "18:45",
         duration: "50 min",
         nextWalk: "8 min (Google 6 min + 40%)",
-        note: "Énergie survoltée au-dessus de la place de la Riponne.",
-        teaserHint: "Grand pub terrasse avec vue plongeante"
+        note: "Énergie survoltée au-dessus de la place de la Riponne."
       },
       {
         id: 5,
@@ -341,7 +304,6 @@
         duration: "49 min",
         nextWalk: "11 min (Google 8 min + 40%)",
         note: "Cadre architectural emblématique sous les ponts de la ville."
-        ,teaserHint: "Spot urbain niché sous les voûtes de pierre"
       },
       {
         id: 6,
@@ -353,8 +315,7 @@
         out: "20:45",
         duration: "52 min",
         nextWalk: "6 min (Google 4 min + 40%)",
-        note: "Mi-parcours ! Possibilité pour chacun de grignoter un burger ou des tapas au comptoir.",
-        teaserHint: "Bistrot culte & scène musicale lausannoise"
+        note: "Mi-parcours ! Possibilité pour chacun de grignoter un burger ou des tapas au comptoir."
       },
       {
         id: 7,
@@ -366,8 +327,7 @@
         out: "21:40",
         duration: "49 min",
         nextWalk: "13 min (Google 9 min + 40%)",
-        note: "Cocktails maison, bières et ambiance feutrée pour relancer la deuxième mi-temps.",
-        teaserHint: "Bar rétro aux lampions et banquettes feutrées"
+        note: "Cocktails maison, bières et ambiance feutrée pour relancer la deuxième mi-temps."
       },
       {
         id: 8,
@@ -379,8 +339,7 @@
         out: "22:42",
         duration: "49 min",
         nextWalk: "11 min (Google 8 min + 40%)",
-        note: "Pépites brassicoles rares avant d'attaquer la descente vers le Flon.",
-        teaserHint: "Antre des bières d'exception et tireuses pointues"
+        note: "Pépites brassicoles rares avant d'attaquer la descente vers le Flon."
       },
       {
         id: 9,
@@ -392,8 +351,7 @@
         out: "23:43",
         duration: "50 min",
         nextWalk: "4 min (Google 3 min + 40%)",
-        note: "Ambiance sonore qui monte d'un cran, billards et esprit pub.",
-        teaserHint: "Temple festif du Flon aux dimensions XXL"
+        note: "Ambiance sonore qui monte d'un cran, billards et esprit pub."
       },
       {
         id: 10,
@@ -405,8 +363,7 @@
         out: "00:37",
         duration: "50 min",
         nextWalk: "3 min (Google 2 min + 40%)",
-        note: "Passage aux shooters et planteurs dans une ambiance de cale de navire.",
-        teaserHint: "Taverne de flibustiers et shooters enflammés"
+        note: "Passage aux shooters et planteurs dans une ambiance de cale de navire."
       },
       {
         id: 11,
@@ -418,8 +375,7 @@
         out: "01:30",
         duration: "50 min",
         nextWalk: "20 min (Google 14 min + 40% - montée Cité)",
-        note: "Rock'n'roll, guitares et bières fraîches avant l'ultime ascension vers la Cité.",
-        teaserHint: "Institution rock & concert souterrain"
+        note: "Rock'n'roll, guitares et bières fraîches avant l'ultime ascension vers la Cité."
       },
       {
         id: 12,
@@ -431,34 +387,9 @@
         out: "~02:30+",
         duration: "Fin de nuit",
         nextWalk: "Terminus / Derniers verres",
-        note: "Le plus ancien bar de nuit de Lausanne pour trinquer à la réussite du barathon !",
-        teaserHint: "Le plus vieux bar de nuit perché sur la Cité"
+        note: "Le plus ancien bar de nuit de Lausanne pour trinquer à la réussite du barathon !"
       }
     ];
-
-    if (!isRevealed) {
-      document.getElementById('teaserBanner').classList.remove('hidden');
-      document.getElementById('mapLockedOverlay').classList.remove('hidden');
-      document.getElementById('carteSubtitle').textContent = "Carte verrouillée jusqu'au 15 novembre 2026.";
-      document.getElementById('statBar1').innerHTML = '<span class="redacted-box px-2">SECRET</span>';
-      document.getElementById('statBar12').innerHTML = '<span class="redacted-box px-2">SECRET</span>';
-
-      function updateCountdown() {
-        const now = new Date();
-        const diff = REVEAL_DATE - now;
-        if (diff <= 0) {
-          location.reload();
-          return;
-        }
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((diff / 1000 / 60) % 60);
-        const s = Math.floor((diff / 1000) % 60);
-        document.getElementById('teaserCountdown').textContent = `${d}j ${h}h ${m}m ${s}s`;
-      }
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    }
 
     const gmapsBase = "https://www.google.com/maps/dir/";
     const gmapsWaypoints = bars.map(b => encodeURIComponent(b.name + ", " + b.address)).join("/");
@@ -472,10 +403,6 @@
       const card = document.createElement('div');
       card.id = `bar-card-${b.id}`;
       card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
-      
-      const displayName = isRevealed ? b.name : `Bar #${b.id} — <span class="text-zinc-500 font-mono text-sm">[CLASSIFIÉ]</span>`;
-      const displayAddress = isRevealed ? `📍 ${b.address}` : `📍 Lausanne Centre <span class="redacted-box px-2">Rue secrète</span>`;
-      const displayNote = isRevealed ? b.note : `🔒 Indice : <em>${b.teaserHint}</em> (Dévoilé le 15 nov.)`;
 
       card.innerHTML = `
         <div class="flex items-start gap-3">
@@ -483,9 +410,9 @@
             #${b.id}
           </div>
           <div>
-            <h3 class="font-bold text-base text-white">${displayName}</h3>
-            <p class="text-xs text-zinc-400 font-mono mt-0.5">${displayAddress}</p>
-            <p class="text-xs text-zinc-300 mt-1">${displayNote}</p>
+            <h3 class="font-bold text-base text-white">${b.name}</h3>
+            <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
+            <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
           </div>
         </div>
         
@@ -521,21 +448,13 @@
       });
 
       const marker = L.marker([b.lat, b.lng], { icon: icon }).addTo(map);
-      
-      const popupContent = isRevealed ? `
+      marker.bindPopup(`
         <div style="font-family:'Space Grotesk',sans-serif; color:#111; padding:2px;">
           <div style="font-weight:bold; font-size:13px;">#${b.id} ${b.name}</div>
           <div style="font-size:11px; color:#444; font-family:'JetBrains Mono';">${b.in} - ${b.out} (${b.duration})</div>
           <div style="font-size:11px; margin-top:2px;">${b.address}</div>
         </div>
-      ` : `
-        <div style="font-family:'Space Grotesk',sans-serif; color:#111; padding:2px;">
-          <div style="font-weight:bold; font-size:13px;">#${b.id} Étape secrète</div>
-          <div style="font-size:11px; color:#444; font-family:'JetBrains Mono';">${b.in} - ${b.out}</div>
-          <div style="font-size:11px; margin-top:2px;">Révélation le 15 novembre</div>
-        </div>
-      `;
-      marker.bindPopup(popupContent);
+      `);
 
       marker.on('click', () => {
         const target = document.getElementById(`bar-card-${b.id}`);
@@ -604,12 +523,12 @@
       const endMin = parseMinutes("02:30");
 
       if (minutes < startMin) {
-        statusContainer.innerHTML = `<span>Départ à 15h00 au Bar #1 (${isRevealed ? bars[0].name : 'Lieu secret'})</span>`;
+        statusContainer.innerHTML = `<span>Départ à 15h00 au Bar #1 (${bars[0].name})</span>`;
         if (isUserInteraction) highlightActiveBar(1);
         return;
       }
       if (minutes >= endMin) {
-        statusContainer.innerHTML = `<span>Fin du marathon aux alentours de 02h30 (${isRevealed ? bars[11].name : 'Lieu secret'} 🏆)</span>`;
+        statusContainer.innerHTML = `<span>Fin du marathon aux alentours de 02h30 (${bars[11].name} 🏆)</span>`;
         if (isUserInteraction) highlightActiveBar(12);
         return;
       }
@@ -625,8 +544,7 @@
         } else if (i < bars.length - 1) {
           const nextInM = parseMinutes(bars[i+1].in);
           if (minutes > outM && minutes < nextInM) {
-            const nextName = isRevealed ? bars[i+1].name : `Bar #${bars[i+1].id}`;
-            statusContainer.innerHTML = `<span>En marche vers <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${bars[i+1].id}, true)">#${bars[i+1].id} ${nextName} ➔</button></span>`;
+            statusContainer.innerHTML = `<span>En marche vers <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${bars[i+1].id}, true)">#${bars[i+1].id} ${bars[i+1].name} ➔</button></span>`;
             if (isUserInteraction) highlightActiveBar(bars[i+1].id);
             return;
           }
@@ -634,8 +552,7 @@
       }
 
       if (activeBar) {
-        const currentName = isRevealed ? activeBar.name : `Bar #${activeBar.id} [SECRET]`;
-        statusContainer.innerHTML = `<span>Au <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${activeBar.id}, true)">Bar #${activeBar.id} : ${currentName} ➔</button> <span class="text-zinc-400">(jusqu'à ${activeBar.out})</span></span>`;
+        statusContainer.innerHTML = `<span>Au <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${activeBar.id}, true)">Bar #${activeBar.id} : ${activeBar.name} ➔</button> <span class="text-zinc-400">(jusqu'à ${activeBar.out})</span></span>`;
         if (isUserInteraction) highlightActiveBar(activeBar.id);
       }
     }
@@ -650,7 +567,6 @@
       highlightActiveBar(null);
     });
 
-    // Évaluation de l'état réel de la date & heure (basé sur le 12 décembre 2026)
     function checkLiveSystemState() {
       const now = new Date();
       const isDuringEvent = (now >= EVENT_START && now <= EVENT_END);
@@ -693,7 +609,7 @@
     checkLiveSystemState();
     setInterval(checkLiveSystemState, 60000);
 
-    // Modal Calendrier & Liens mis à jour pour le 12 décembre 2026
+    // Modal Calendrier & Liens
     const calBtn = document.getElementById('openCalBtn');
     const calDropdown = document.getElementById('calDropdown');
 
@@ -707,7 +623,7 @@
     });
 
     const eventTitle = "BARATHON 2026 LAUSANNE";
-    const eventLocation = isRevealed ? "Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne" : "Lausanne Centre (Point de rdv exact dévoilé le 15 nov.)";
+    const eventLocation = "Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne";
     
     const eventDescription = [
       "BARATHON 2026 LAUSANNE",
@@ -734,7 +650,7 @@
     const detailsEncoded = encodeURIComponent(eventDescription);
     const locationEncoded = encodeURIComponent(eventLocation);
 
-    // Google Agenda (12 décembre 2026 de 15h00 CET à ~02h30 le 13 décembre)
+    // Google Agenda
     document.getElementById('calGoogle').addEventListener('click', (e) => {
       e.preventDefault();
       const gcalWebUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${titleEncoded}&dates=20261212T140000Z/20261213T013000Z&details=${detailsEncoded}&location=${locationEncoded}`;
@@ -766,6 +682,7 @@
       ].join("\r\n");
     }
 
+    // Apple Calendrier
     document.getElementById('calApple').addEventListener('click', (e) => {
       e.preventDefault();
       const icsData = getIcsString();
@@ -782,9 +699,13 @@
       }
     });
 
+    // Outlook
     document.getElementById('calOutlook').href = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${titleEncoded}&body=${detailsEncoded}&location=${locationEncoded}&startdt=2026-12-12T15:00:00&enddt=2026-12-13T02:30:00`;
+    
+    // Office 365
     document.getElementById('calOffice').href = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${titleEncoded}&body=${detailsEncoded}&location=${locationEncoded}&startdt=2026-12-12T15:00:00&enddt=2026-12-13T02:30:00`;
 
+    // .ics universel
     document.getElementById('calIcs').addEventListener('click', (e) => {
       e.preventDefault();
       const blob = new Blob([getIcsString()], { type: 'application/octet-stream;charset=utf-8' });
