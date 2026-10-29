@@ -32,6 +32,15 @@
     }
   </script>
   <style>
+    /* Filigrane d'arrière-plan discret (~8-9% opacité) : bières, cocktails et vins inclinés à 45° */
+    body {
+      background-color: #0A0A0A;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg fill='none' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.08'%3E%3Cg transform='translate(45, 55) rotate(-42) scale(1.35)'%3E%3Crect x='-8' y='-10' width='16' height='22' rx='3' /%3E%3Cpath d='M8 -5 C13 -5, 13 5, 8 5' /%3E%3Cpath d='M-8 -10 C-8 -13, -3 -13, -2 -10 C-1 -14, 5 -14, 6 -10 C7 -13, 9 -13, 9 -10' /%3E%3Cline x1='-4' y1='-6' x2='-4' y2='8' /%3E%3Cline x1='0' y1='-6' x2='0' y2='8' /%3E%3Cline x1='4' y1='-6' x2='4' y2='8' /%3E%3C/g%3E%3Cg transform='translate(180, 50) rotate(40) scale(1.15)'%3E%3Cpath d='M-8 -14 C-8 0, 8 0, 8 -14 Z' /%3E%3Cline x1='0' y1='0' x2='0' y2='14' /%3E%3Cline x1='-6' y1='14' x2='6' y2='14' /%3E%3C/g%3E%3Cg transform='translate(85, 175) rotate(-38) scale(1.25)'%3E%3Cpath d='M-12 -10 L12 -10 L0 3 Z' /%3E%3Cline x1='0' y1='3' x2='0' y2='14' /%3E%3Cline x1='-7' y1='14' x2='7' y2='14' /%3E%3Ccircle cx='0' cy='-7' r='2' /%3E%3Cline x1='0' y1='-7' x2='5' y2='-14' /%3E%3C/g%3E%3Cg transform='translate(195, 190) rotate(45) scale(0.95)'%3E%3Crect x='-7' y='-9' width='14' height='18' rx='2.5' /%3E%3Cpath d='M7 -4 C11 -4, 11 4, 7 4' /%3E%3Cpath d='M-7 -9 C-7 -11, 7 -11, 7 -9' /%3E%3C/g%3E%3Cg transform='translate(235, 115) rotate(-45) scale(0.85)'%3E%3Cpath d='M-10 -8 L10 -8 L0 4 Z' /%3E%3Cline x1='0' y1='4' x2='0' y2='13' /%3E%3Cline x1='-5' y1='13' x2='5' y2='13' /%3E%3C/g%3E%3Cg transform='translate(20, 230) rotate(45) scale(0.9)'%3E%3Cpath d='M-7 -12 C-7 0, 7 0, 7 -12 Z' /%3E%3Cline x1='0' y1='0' x2='0' y2='12' /%3E%3Cline x1='-5' y1='12' x2='5' y2='12' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 260px 260px;
+      background-attachment: fixed;
+    }
+
     input[type=range] {
       touch-action: pan-x;
     }
@@ -54,7 +63,7 @@
     }
   </style>
 </head>
-<body class="bg-brand-black text-white font-display antialiased min-h-screen selection:bg-brand-lime selection:text-black">
+<body class="text-white font-display antialiased min-h-screen selection:bg-brand-lime selection:text-black">
 
   <!-- Header -->
   <header class="border-b border-zinc-800 bg-brand-black/95 backdrop-blur sticky top-0 z-40">
@@ -73,7 +82,7 @@
   </header>
 
   <!-- Contenu principal -->
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
     
     <div class="mb-8">
       <div class="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-zinc-700 rounded text-xs font-mono text-zinc-300 mb-4">
@@ -216,7 +225,7 @@
 
   </main>
 
-  <footer class="mt-12 border-t border-zinc-800 py-6 text-center text-xs font-mono text-zinc-600">
+  <footer class="mt-12 border-t border-zinc-800 py-6 text-center text-xs font-mono text-zinc-600 relative z-10">
     BARATHON 2026 LAUSANNE — 12 DÉCEMBRE 2026
   </footer>
 
@@ -361,7 +370,6 @@
       }
     ];
 
-    // Rendu de la liste avec bordure gris clair délimitant chaque case
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -514,7 +522,6 @@
       updateNavButtons(1, null);
     });
 
-    // Décompte calendaire pur (J-1 toute la journée du 11 déc., badge masqué dès minuit le 12 déc.)
     function checkLiveSystemState() {
       const now = new Date();
       const isDuringEvent = (now >= EVENT_START && now <= EVENT_END);
