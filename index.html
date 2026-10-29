@@ -224,12 +224,13 @@
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
 
-    // Ordre exact validé avec étape joker YOLO et final CTM
+    // Ordre des 12 bars avec adresses ciblées pour itinéraire GPS
     const bars = [
       {
         id: 1,
         name: "Café du Simplon",
         address: "Rue du Simplon 17, 1006 Lausanne",
+        gmapsQuery: "Café du Simplon, Rue du Simplon 17, 1006 Lausanne",
         in: "15:00",
         out: "15:45",
         duration: "45 min",
@@ -240,6 +241,7 @@
         id: 2,
         name: "Bar Tabac",
         address: "Rue Beau-Séjour 7, 1003 Lausanne",
+        gmapsQuery: "Bar Tabac, Rue Beau-Séjour 7, 1003 Lausanne",
         in: "15:59",
         out: "16:45",
         duration: "46 min",
@@ -250,6 +252,7 @@
         id: 3,
         name: "Café Saint-Pierre",
         address: "Place Benjamin-Constant 1, 1003 Lausanne",
+        gmapsQuery: "Café Saint-Pierre, Place Benjamin-Constant 1, 1003 Lausanne",
         in: "16:51",
         out: "17:40",
         duration: "49 min",
@@ -260,6 +263,7 @@
         id: 4,
         name: "Barberousse Lausanne",
         address: "Rue de Genève 8, 1003 Lausanne",
+        gmapsQuery: "Barberousse, Rue de Genève 8, 1003 Lausanne",
         in: "17:51",
         out: "18:40",
         duration: "49 min",
@@ -270,6 +274,7 @@
         id: 5,
         name: "King Size Pub & Food",
         address: "Rue de Genève 17, 1003 Lausanne",
+        gmapsQuery: "King Size Pub, Rue de Genève 17, 1003 Lausanne",
         in: "18:43",
         out: "19:30",
         duration: "47 min",
@@ -280,6 +285,7 @@
         id: 6,
         name: "YOLO (on verra bien sur le moment)",
         address: "Flon / Centre-ville, 1003 Lausanne",
+        gmapsQuery: "Le Flon, 1003 Lausanne",
         in: "19:33",
         out: "20:25",
         duration: "52 min",
@@ -290,6 +296,7 @@
         id: 7,
         name: "Cylure Binchroom Lausanne",
         address: "Rue de la Tour 4, 1004 Lausanne",
+        gmapsQuery: "Cylure Binchroom, Rue de la Tour 4, 1004 Lausanne",
         in: "20:37",
         out: "21:25",
         duration: "48 min",
@@ -300,6 +307,7 @@
         id: 8,
         name: "La Société",
         address: "Rue de la Madeleine, 1003 Lausanne",
+        gmapsQuery: "La Société, Rue de la Madeleine, 1003 Lausanne",
         in: "21:32",
         out: "22:20",
         duration: "48 min",
@@ -310,6 +318,7 @@
         id: 9,
         name: "Vieux-Lausanne Restaurant & Giraf Bar",
         address: "Rue Pierre-Viret 6, 1003 Lausanne",
+        gmapsQuery: "Giraf Bar, Rue Pierre-Viret 6, 1003 Lausanne",
         in: "22:25",
         out: "23:15",
         duration: "50 min",
@@ -320,6 +329,7 @@
         id: 10,
         name: "Café La Couronne d'Or",
         address: "Rue des Deux-Marchés 13, 1005 Lausanne",
+        gmapsQuery: "Café La Couronne d'Or, Rue des Deux-Marchés 13, 1005 Lausanne",
         in: "23:22",
         out: "00:10",
         duration: "48 min",
@@ -330,6 +340,7 @@
         id: 11,
         name: "Le Lapin Vert",
         address: "Ruelle du Lapin-Vert, 1005 Lausanne",
+        gmapsQuery: "Le Lapin Vert, Ruelle du Lapin-Vert, 1005 Lausanne",
         in: "00:18",
         out: "01:10",
         duration: "52 min",
@@ -340,6 +351,7 @@
         id: 12,
         name: "CTM - Chez Ta Mère",
         address: "Rue Saint-Martin 9, 1003 Lausanne",
+        gmapsQuery: "Chez Ta Mère, Rue Saint-Martin 9, 1003 Lausanne",
         in: "01:16",
         out: "~02:30+",
         duration: "Fin de nuit",
@@ -348,22 +360,29 @@
       }
     ];
 
-    // Rendu de la liste
+    // Rendu de la liste des bars avec bouton d'itinéraire direct
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
       card.id = `bar-card-${b.id}`;
       card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
 
+      const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(b.gmapsQuery)}&travelmode=walking`;
+
       card.innerHTML = `
         <div class="flex items-start gap-3">
           <div class="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-700 text-brand-lime font-mono font-bold flex items-center justify-center shrink-0 text-sm">
             #${b.id}
           </div>
-          <div>
+          <div class="flex-1">
             <h3 class="font-bold text-base text-white">${b.name}</h3>
             <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
             <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
+            <div class="mt-2.5">
+              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-300 hover:text-black border border-zinc-700 hover:border-brand-lime transition font-mono text-[11px] font-bold">
+                <span>🧭</span> S'y rendre (Itinéraire) ↗
+              </a>
+            </div>
           </div>
         </div>
         
