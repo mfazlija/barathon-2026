@@ -208,7 +208,7 @@
           <p class="text-zinc-400">Aucune pause repas formelle n'est imposée. Chacun gère son alimentation au fil des étapes sans ralentir le tempo.</p>
         </div>
         <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-lg">
-          <div class="text-brand-lime font-bold mb-1">⏱️ Ponctualité</div>
+          <div class="text-brand-lime font-bold mb-1">Ponctualité</div>
           <p class="text-zinc-400">Le groupe décolle à l'heure indiquée. Les retardataires se repèrent sur la carte pour nous rattraper en chemin.</p>
         </div>
       </div>
@@ -224,7 +224,6 @@
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
 
-    // Ordre des 12 bars avec adresses ciblées pour itinéraire GPS
     const bars = [
       {
         id: 1,
@@ -360,7 +359,7 @@
       }
     ];
 
-    // Rendu de la liste des bars avec bouton d'itinéraire direct
+    // Rendu de la liste avec boutons d'itinéraire masqués par défaut
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -378,7 +377,7 @@
             <h3 class="font-bold text-base text-white">${b.name}</h3>
             <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
             <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
-            <div class="mt-2.5">
+            <div id="nav-wrapper-${b.id}" class="mt-2.5 hidden">
               <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-300 hover:text-black border border-zinc-700 hover:border-brand-lime transition font-mono text-[11px] font-bold">
                 <span>🧭</span> S'y rendre (Itinéraire) ↗
               </a>
@@ -394,6 +393,21 @@
       `;
       listContainer.appendChild(card);
     });
+
+    // Gestion exclusive de la visibilité des boutons "S'y rendre" (uniquement bar actuel et suivant)
+    function updateNavButtons(currentId, nextId) {
+      document.querySelectorAll('[id^="nav-wrapper-"]').forEach(el => el.classList.add('hidden'));
+
+      if (currentId) {
+        const currentWrapper = document.getElementById(`nav-wrapper-${currentId}`);
+        if (currentWrapper) currentWrapper.classList.remove('hidden');
+      }
+
+      if (nextId) {
+        const nextWrapper = document.getElementById(`nav-wrapper-${nextId}`);
+        if (nextWrapper) nextWrapper.classList.remove('hidden');
+      }
+    }
 
     function highlightActiveBar(id, scrollTarget = false) {
       document.querySelectorAll('#barsList > div').forEach(el => {
@@ -442,12 +456,20 @@
 
       if (minutes < startMin) {
         statusContainer.innerHTML = `<span>Départ à 15h00 au Bar #1 (${bars[0].name})</span>`;
-        if (isUserInteraction) highlightActiveBar(1);
+        if (isUserInteraction) {
+          highlightActiveBar(1);
+          updateNavButtons(1, 2);
+        } else {
+          highlightActiveBar(null);
+          updateNavButtons(1, null);
+        }
         return;
       }
+
       if (minutes >= endMin) {
         statusContainer.innerHTML = `<span>Fin du marathon aux alentours de 02h30 (${bars[11].name} 🏆)</span>`;
-        if (isUserInteraction) highlightActiveBar(12);
+        highlightActiveBar(12);
+        updateNavButtons(12, null);
         return;
       }
 
@@ -463,7 +485,8 @@
           const nextInM = parseMinutes(bars[i+1].in);
           if (minutes > outM && minutes < nextInM) {
             statusContainer.innerHTML = `<span>En marche vers <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${bars[i+1].id}, true)">#${bars[i+1].id} ${bars[i+1].name} ➔</button></span>`;
-            if (isUserInteraction) highlightActiveBar(bars[i+1].id);
+            highlightActiveBar(bars[i+1].id);
+            updateNavButtons(bars[i].id, bars[i+1].id);
             return;
           }
         }
@@ -471,7 +494,9 @@
 
       if (activeBar) {
         statusContainer.innerHTML = `<span>Au <button type="button" class="text-brand-lime underline font-bold hover:text-white" onclick="highlightActiveBar(${activeBar.id}, true)">Bar #${activeBar.id} : ${activeBar.name} ➔</button> <span class="text-zinc-400">(jusqu'à ${activeBar.out})</span></span>`;
-        if (isUserInteraction) highlightActiveBar(activeBar.id);
+        highlightActiveBar(activeBar.id);
+        const nextId = activeBar.id < 12 ? activeBar.id + 1 : null;
+        updateNavButtons(activeBar.id, nextId);
       }
     }
 
@@ -483,6 +508,7 @@
       slider.value = 900;
       updateSimulation(900, false);
       highlightActiveBar(null);
+      updateNavButtons(1, null);
     });
 
     function checkLiveSystemState() {
@@ -521,6 +547,7 @@
         displayTime.textContent = "15:00";
         statusContainer.innerHTML = `<span class="text-zinc-400">Rdv le 12 décembre 2026 à 15h00. <span class="text-zinc-500">(Déplacez le curseur pour tester les horaires)</span></span>`;
         highlightActiveBar(null);
+        updateNavButtons(1, null);
       }
     }
 
