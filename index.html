@@ -224,6 +224,8 @@
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
 
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     const bars = [
       {
         id: 1,
@@ -359,14 +361,16 @@
       }
     ];
 
-    // Rendu de la liste avec boutons d'itinéraire masqués par défaut
+    // Rendu de la liste des bars avec bascule automatique Apple Maps / Google Maps
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
       card.id = `bar-card-${b.id}`;
       card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
 
-      const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(b.gmapsQuery)}&travelmode=walking`;
+      const navUrl = isIOS
+        ? `https://maps.apple.com/?daddr=${encodeURIComponent(b.gmapsQuery)}&dirflg=w`
+        : `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(b.gmapsQuery)}&travelmode=walking`;
 
       card.innerHTML = `
         <div class="flex items-start gap-3">
@@ -394,7 +398,6 @@
       listContainer.appendChild(card);
     });
 
-    // Gestion exclusive de la visibilité des boutons "S'y rendre" (uniquement bar actuel et suivant)
     function updateNavButtons(currentId, nextId) {
       document.querySelectorAll('[id^="nav-wrapper-"]').forEach(el => el.classList.add('hidden'));
 
