@@ -8,8 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -34,28 +32,6 @@
     }
   </script>
   <style>
-    .leaflet-container {
-      font-family: 'Space Grotesk', sans-serif;
-      background: #e5e7eb;
-    }
-    .custom-marker {
-      background: #C6F135;
-      color: #0A0A0A;
-      border: 2px solid #0A0A0A;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      border-radius: 9999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      cursor: pointer;
-      transition: transform 0.15s ease-in-out;
-    }
-    .custom-marker:hover {
-      background: #FFFFFF;
-      transform: scale(1.15);
-    }
     input[type=range] {
       touch-action: pan-x;
     }
@@ -89,7 +65,7 @@
       </div>
       <div class="flex items-center gap-2">
         <a href="#carte" class="text-xs font-mono text-zinc-400 hover:text-white px-2 py-1">📍 Carte</a>
-        <a href="#" id="headerGmapsBtn" target="_blank" rel="noopener noreferrer" class="bg-brand-lime text-black text-xs font-bold font-mono px-3 py-1.5 rounded hover:bg-white transition flex items-center gap-1">
+        <a href="https://www.google.com/maps/d/viewer?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU" target="_blank" rel="noopener noreferrer" class="bg-brand-lime text-black text-xs font-bold font-mono px-3 py-1.5 rounded hover:bg-white transition flex items-center gap-1">
           <span>⤢</span> Google Maps
         </a>
       </div>
@@ -189,19 +165,23 @@
       </div>
     </div>
 
-    <!-- Carte du parcours -->
+    <!-- Carte du parcours (Google My Maps) -->
     <section id="carte" class="mb-10">
       <div class="flex items-center justify-between mb-3">
         <div>
           <h2 class="text-xl font-bold uppercase tracking-tight">Carte du parcours</h2>
-          <p class="text-xs text-zinc-500 font-mono">Cliquez sur un numéro pour localiser l'étape dans la liste.</p>
+          <p class="text-xs text-zinc-500 font-mono">Carte Google My Maps officielle du Barathon 2026.</p>
         </div>
-        <a id="gmapsRouteLink" href="#" target="_blank" class="text-xs font-mono text-brand-lime hover:underline flex items-center gap-1">
+        <a href="https://www.google.com/maps/d/viewer?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-brand-lime hover:underline flex items-center gap-1">
           Ouvrir dans Google Maps ↗
         </a>
       </div>
-      <div class="relative rounded-xl border border-brand-border overflow-hidden shadow-lg">
-        <div id="map" class="h-80 sm:h-96 w-full z-10"></div>
+      <div class="rounded-xl border border-brand-border overflow-hidden shadow-lg h-[420px] sm:h-[480px] w-full bg-zinc-900">
+        <iframe 
+          src="https://www.google.com/maps/d/embed?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU&ehbc=2E312F" 
+          class="w-full h-full border-0"
+          loading="lazy">
+        </iframe>
       </div>
     </section>
 
@@ -244,13 +224,12 @@
     const EVENT_START = new Date('2026-12-12T15:00:00');
     const EVENT_END = new Date('2026-12-13T03:30:00');
 
+    // 12 bars intégrant ta sélection et les étapes de liaison optimales
     const bars = [
       {
         id: 1,
         name: "Café Saint-Pierre",
         address: "Place Benjamin-Constant 1, 1003 Lausanne",
-        lat: 46.5186,
-        lng: 6.6358,
         in: "15:00",
         out: "15:48",
         duration: "48 min",
@@ -259,10 +238,8 @@
       },
       {
         id: 2,
-        name: "La Couronne d'Or",
+        name: "Café La Couronne d'Or",
         address: "Rue des Deux-Marchés 13, 1005 Lausanne",
-        lat: 46.5242,
-        lng: 6.6322,
         in: "16:01",
         out: "16:50",
         duration: "49 min",
@@ -271,10 +248,8 @@
       },
       {
         id: 3,
-        name: "Le Cylure Binchstub",
+        name: "Cylure Binchroom Lausanne",
         address: "Rue de la Tour 4, 1004 Lausanne",
-        lat: 46.5249,
-        lng: 6.6298,
         in: "16:58",
         out: "17:48",
         duration: "50 min",
@@ -285,8 +260,6 @@
         id: 4,
         name: "The Great Escape",
         address: "Rue Madeleine 18, 1003 Lausanne",
-        lat: 46.5224,
-        lng: 6.6315,
         in: "17:55",
         out: "18:45",
         duration: "50 min",
@@ -297,8 +270,6 @@
         id: 5,
         name: "Les Arches",
         address: "Place de l'Europe, 1003 Lausanne",
-        lat: 46.5208,
-        lng: 6.6308,
         in: "18:53",
         out: "19:42",
         duration: "49 min",
@@ -309,8 +280,6 @@
         id: 6,
         name: "Le Bleu Lézard",
         address: "Rue Enning 10, 1003 Lausanne",
-        lat: 46.5195,
-        lng: 6.6355,
         in: "19:53",
         out: "20:45",
         duration: "52 min",
@@ -321,8 +290,6 @@
         id: 7,
         name: "Le Java",
         address: "Rue Marterey 36, 1005 Lausanne",
-        lat: 46.5198,
-        lng: 6.6382,
         in: "20:51",
         out: "21:40",
         duration: "49 min",
@@ -333,8 +300,6 @@
         id: 8,
         name: "La Capsule",
         address: "Rue de la Grotte 2, 1003 Lausanne",
-        lat: 46.5183,
-        lng: 6.6329,
         in: "21:53",
         out: "22:42",
         duration: "49 min",
@@ -343,10 +308,8 @@
       },
       {
         id: 9,
-        name: "King Size Pub",
+        name: "King Size Pub & Food",
         address: "Rue de Genève 17, 1003 Lausanne",
-        lat: 46.5209,
-        lng: 6.6272,
         in: "22:53",
         out: "23:43",
         duration: "50 min",
@@ -355,10 +318,8 @@
       },
       {
         id: 10,
-        name: "Barberousse",
+        name: "Barberousse Lausanne",
         address: "Rue de Genève 8, 1003 Lausanne",
-        lat: 46.5218,
-        lng: 6.6268,
         in: "23:47",
         out: "00:37",
         duration: "50 min",
@@ -369,8 +330,6 @@
         id: 11,
         name: "Taco's Bar",
         address: "Rue de Genève 17, 1003 Lausanne",
-        lat: 46.5206,
-        lng: 6.6265,
         in: "00:40",
         out: "01:30",
         duration: "50 min",
@@ -381,8 +340,6 @@
         id: 12,
         name: "Le Lapin Vert",
         address: "Ruelle du Lapin-Vert, 1005 Lausanne",
-        lat: 46.5228,
-        lng: 6.6352,
         in: "01:50",
         out: "~02:30+",
         duration: "Fin de nuit",
@@ -391,13 +348,7 @@
       }
     ];
 
-    const gmapsBase = "https://www.google.com/maps/dir/";
-    const gmapsWaypoints = bars.map(b => encodeURIComponent(b.name + ", " + b.address)).join("/");
-    const fullGmapsUrl = gmapsBase + gmapsWaypoints + "/@46.521,6.632,15z/data=!4m2!4m1!3e2";
-    
-    document.getElementById('gmapsRouteLink').href = fullGmapsUrl;
-    document.getElementById('headerGmapsBtn').href = fullGmapsUrl;
-
+    // Rendu de la liste
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
@@ -423,58 +374,6 @@
         </div>
       `;
       listContainer.appendChild(card);
-    });
-
-    const map = L.map('map', {
-      scrollWheelZoom: false
-    }).setView([46.5215, 6.6325], 15);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    const latLngs = [];
-    const markers = {};
-
-    bars.forEach(b => {
-      latLngs.push([b.lat, b.lng]);
-
-      const icon = L.divIcon({
-        className: 'custom-div-icon',
-        html: `<div class="custom-marker w-7 h-7 text-xs" id="marker-${b.id}">${b.id}</div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14]
-      });
-
-      const marker = L.marker([b.lat, b.lng], { icon: icon }).addTo(map);
-      marker.bindPopup(`
-        <div style="font-family:'Space Grotesk',sans-serif; color:#111; padding:2px;">
-          <div style="font-weight:bold; font-size:13px;">#${b.id} ${b.name}</div>
-          <div style="font-size:11px; color:#444; font-family:'JetBrains Mono';">${b.in} - ${b.out} (${b.duration})</div>
-          <div style="font-size:11px; margin-top:2px;">${b.address}</div>
-        </div>
-      `);
-
-      marker.on('click', () => {
-        const target = document.getElementById(`bar-card-${b.id}`);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      });
-
-      markers[b.id] = marker;
-    });
-
-    L.polyline(latLngs, {
-      color: '#0A0A0A',
-      weight: 3.5,
-      dashArray: '6, 6',
-      opacity: 0.85
-    }).addTo(map);
-
-    window.addEventListener('load', () => {
-      setTimeout(() => { map.invalidateSize(); }, 200);
     });
 
     function highlightActiveBar(id, scrollTarget = false) {
@@ -631,17 +530,19 @@
       "",
       "PROGRAMME DES 12 ÉTAPES :",
       "1. 15:00 - 15:48 : Café Saint-Pierre (Pl. Benjamin-Constant 1)",
-      "2. 16:01 - 16:50 : La Couronne d'Or (Rue des Deux-Marchés 13)",
-      "3. 16:58 - 17:48 : Le Cylure Binchstub (Rue de la Tour 4)",
+      "2. 16:01 - 16:50 : Café La Couronne d'Or (Rue des Deux-Marchés 13)",
+      "3. 16:58 - 17:48 : Cylure Binchroom Lausanne (Rue de la Tour 4)",
       "4. 17:55 - 18:45 : The Great Escape (Rue Madeleine 18)",
       "5. 18:53 - 19:42 : Les Arches (Place de l'Europe)",
       "6. 19:53 - 20:45 : Le Bleu Lézard (Rue Enning 10)",
       "7. 20:51 - 21:40 : Le Java (Rue Marterey 36)",
       "8. 21:53 - 22:42 : La Capsule (Rue de la Grotte 2)",
-      "9. 22:53 - 23:43 : King Size Pub (Rue de Genève 17)",
-      "10. 23:47 - 00:37 : Barberousse (Rue de Genève 8)",
+      "9. 22:53 - 23:43 : King Size Pub & Food (Rue de Genève 17)",
+      "10. 23:47 - 00:37 : Barberousse Lausanne (Rue de Genève 8)",
       "11. 00:40 - 01:30 : Taco's Bar (Rue de Genève 17)",
       "12. 01:50 - ~02:30+ : Le Lapin Vert (Ruelle du Lapin-Vert)",
+      "",
+      "Carte My Maps : https://www.google.com/maps/d/viewer?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU",
       "",
       "Note : Hydratation conseillée (1 verre d'eau par bar) et ravitaillement libre au fil des étapes."
     ].join("\n");
