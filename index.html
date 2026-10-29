@@ -16,9 +16,9 @@
             brand: {
               lime: '#C6F135',
               black: '#0A0A0A',
-              card: '#141414',
-              border: '#27272A',
-              muted: '#71717A',
+              card: '#18181B',
+              border: '#52525B',
+              muted: '#A1A1AA',
               purple: '#A855F7',
               cyan: '#06B6D4'
             }
@@ -57,7 +57,7 @@
 <body class="bg-brand-black text-white font-display antialiased min-h-screen selection:bg-brand-lime selection:text-black">
 
   <!-- Header -->
-  <header class="border-b border-brand-border bg-brand-black/95 backdrop-blur sticky top-0 z-40">
+  <header class="border-b border-zinc-800 bg-brand-black/95 backdrop-blur sticky top-0 z-40">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span id="headerStatusDot" class="w-2.5 h-2.5 rounded-full bg-zinc-600"></span>
@@ -76,7 +76,7 @@
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     
     <div class="mb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-brand-border rounded text-xs font-mono text-zinc-300 mb-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-zinc-900 border border-zinc-700 rounded text-xs font-mono text-zinc-300 mb-4">
         <span>📅</span>
         <span class="text-brand-lime font-bold">SAMEDI 12 DÉCEMBRE 2026</span>
       </div>
@@ -92,23 +92,23 @@
 
       <!-- Cartes métriques -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-        <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
-          <div class="text-zinc-500 uppercase">Rassemblement</div>
+        <div class="bg-brand-card p-3 rounded-lg border border-zinc-700">
+          <div class="text-zinc-400 uppercase">Rassemblement</div>
           <div class="text-brand-lime text-base font-bold mt-1">15:00</div>
           <div class="text-[11px] text-zinc-400">Café du Simplon</div>
         </div>
-        <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
-          <div class="text-zinc-500 uppercase">Dernier bar</div>
+        <div class="bg-brand-card p-3 rounded-lg border border-zinc-700">
+          <div class="text-zinc-400 uppercase">Dernier bar</div>
           <div class="text-cyan-400 text-base font-bold mt-1">~01:16</div>
           <div class="text-[11px] text-zinc-400">CTM - Chez Ta Mère</div>
         </div>
-        <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
-          <div class="text-zinc-500 uppercase">Moyenne par bar</div>
+        <div class="bg-brand-card p-3 rounded-lg border border-zinc-700">
+          <div class="text-zinc-400 uppercase">Moyenne par bar</div>
           <div class="text-purple-400 text-base font-bold mt-1">~49 min</div>
           <div class="text-[11px] text-zinc-400">12 établissements</div>
         </div>
-        <div class="bg-brand-card p-3 rounded-lg border border-brand-border">
-          <div class="text-zinc-500 uppercase">Distance totale</div>
+        <div class="bg-brand-card p-3 rounded-lg border border-zinc-700">
+          <div class="text-zinc-400 uppercase">Distance totale</div>
           <div class="text-amber-400 text-base font-bold mt-1">4.5 km</div>
           <div class="text-[11px] text-zinc-400">À pied (~1h25 de marche)</div>
         </div>
@@ -117,7 +117,7 @@
       <!-- Bouton Calendrier -->
       <div class="mt-6 flex flex-wrap gap-3 items-center">
         <div class="relative inline-block text-left">
-          <button id="openCalBtn" type="button" class="bg-brand-card hover:bg-zinc-800 text-white font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg border border-brand-border hover:border-brand-lime transition flex items-center gap-2">
+          <button id="openCalBtn" type="button" class="bg-brand-card hover:bg-zinc-800 text-white font-mono text-xs sm:text-sm px-4 py-2.5 rounded-lg border border-zinc-700 hover:border-brand-lime transition flex items-center gap-2">
             <span>📅</span> Ajouter au calendrier
             <span class="text-xs text-zinc-400">▼</span>
           </button>
@@ -134,7 +134,7 @@
     </div>
 
     <!-- Outil "En direct / Simulateur" -->
-    <div class="mb-8 p-4 bg-zinc-900/90 border border-zinc-800 rounded-xl">
+    <div class="mb-8 p-4 bg-zinc-900/90 border border-zinc-700 rounded-xl">
       <div class="flex items-center justify-between mb-3">
         <div class="flex items-center gap-2">
           <span id="liveStatusDot" class="inline-block w-2.5 h-2.5 rounded-full bg-zinc-600"></span>
@@ -142,7 +142,7 @@
           <span id="liveCountdownBadge" class="hidden sm:inline text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700"></span>
         </div>
         <div class="flex items-center gap-2 font-mono text-xs">
-          <span class="text-zinc-500">Heure :</span>
+          <span class="text-zinc-400">Heure :</span>
           <span id="sliderDisplayTime" class="bg-black text-brand-lime px-2 py-0.5 rounded font-bold border border-zinc-700">15:00</span>
           <button id="liveClockBtn" class="text-xs text-zinc-400 hover:text-white underline ml-1">Départ (15h)</button>
         </div>
@@ -176,7 +176,7 @@
           Ouvrir dans Google Maps ↗
         </a>
       </div>
-      <div class="rounded-xl border border-brand-border overflow-hidden shadow-lg h-[420px] sm:h-[480px] w-full bg-zinc-900">
+      <div class="rounded-xl border border-zinc-700 overflow-hidden shadow-lg h-[420px] sm:h-[480px] w-full bg-zinc-900">
         <iframe 
           src="https://www.google.com/maps/d/embed?mid=1hNuEUxnnpi2ZyF1jLmSZNptbJpk4LKU&ehbc=2E312F" 
           class="w-full h-full border-0"
@@ -187,7 +187,7 @@
 
     <!-- 12 Étapes du Barathon -->
     <section class="space-y-3">
-      <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+      <div class="flex items-center justify-between pb-2 border-b border-zinc-800">
         <h2 class="text-lg font-bold uppercase tracking-tight">Les 12 Étapes du Barathon</h2>
         <span class="font-mono text-xs text-zinc-500">15h00 ➔ 02h30+</span>
       </div>
@@ -196,7 +196,7 @@
     </section>
 
     <!-- Règles & Recommandations -->
-    <section class="mt-12 pt-8 border-t border-brand-border">
+    <section class="mt-12 pt-8 border-t border-zinc-800">
       <h3 class="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 mb-4">Règles & Recommandations</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
         <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-lg">
@@ -216,7 +216,7 @@
 
   </main>
 
-  <footer class="mt-12 border-t border-brand-border py-6 text-center text-xs font-mono text-zinc-600">
+  <footer class="mt-12 border-t border-zinc-800 py-6 text-center text-xs font-mono text-zinc-600">
     BARATHON 2026 LAUSANNE — 12 DÉCEMBRE 2026
   </footer>
 
@@ -361,12 +361,12 @@
       }
     ];
 
-    // Rendu de la liste des bars sans icône devant le bouton
+    // Rendu de la liste avec bordure gris clair bien visible (border-zinc-500)
     const listContainer = document.getElementById('barsList');
     bars.forEach(b => {
       const card = document.createElement('div');
       card.id = `bar-card-${b.id}`;
-      card.className = "p-4 bg-brand-card rounded-lg border border-brand-border transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+      card.className = "p-4 bg-brand-card rounded-lg border border-zinc-500 transition duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
 
       const navUrl = isIOS
         ? `https://maps.apple.com/?daddr=${encodeURIComponent(b.gmapsQuery)}&dirflg=w`
@@ -374,7 +374,7 @@
 
       card.innerHTML = `
         <div class="flex items-start gap-3">
-          <div class="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-700 text-brand-lime font-mono font-bold flex items-center justify-center shrink-0 text-sm">
+          <div class="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-400 text-brand-lime font-mono font-bold flex items-center justify-center shrink-0 text-sm">
             #${b.id}
           </div>
           <div class="flex-1">
@@ -382,17 +382,17 @@
             <p class="text-xs text-zinc-400 font-mono mt-0.5">📍 ${b.address}</p>
             <p class="text-xs text-zinc-300 mt-1">${b.note}</p>
             <div id="nav-wrapper-${b.id}" class="mt-2.5 hidden">
-              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-300 hover:text-black border border-zinc-700 hover:border-brand-lime transition font-mono text-[11px] font-bold">
+              <a href="${navUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1.5 rounded bg-zinc-900 hover:bg-brand-lime text-zinc-200 hover:text-black border border-zinc-500 hover:border-brand-lime transition font-mono text-[11px] font-bold">
                 S'y rendre (Itinéraire) ↗
               </a>
             </div>
           </div>
         </div>
         
-        <div class="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-2 sm:pt-0 border-zinc-800 shrink-0 font-mono text-xs">
+        <div class="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-2 sm:pt-0 border-zinc-700 shrink-0 font-mono text-xs">
           <div class="text-brand-lime font-bold text-sm">${b.in} ➔ ${b.out}</div>
-          <div class="text-zinc-400 text-[11px]">${b.duration} sur place</div>
-          <div class="text-zinc-500 text-[10px] mt-0.5">🚶 ${b.nextWalk}</div>
+          <div class="text-zinc-300 text-[11px]">${b.duration} sur place</div>
+          <div class="text-zinc-400 text-[10px] mt-0.5">🚶 ${b.nextWalk}</div>
         </div>
       `;
       listContainer.appendChild(card);
@@ -412,18 +412,19 @@
       }
     }
 
+    // Gestion du surlignage : rétablit la bordure gris clair (border-zinc-500) sur les bars inactifs
     function highlightActiveBar(id, scrollTarget = false) {
       document.querySelectorAll('#barsList > div').forEach(el => {
-        el.classList.remove('border-brand-lime', 'bg-zinc-900');
-        el.classList.add('border-brand-border', 'bg-brand-card');
+        el.classList.remove('border-brand-lime', 'border-2', 'bg-zinc-900');
+        el.classList.add('border-zinc-500', 'border', 'bg-brand-card');
       });
 
       if (!id) return;
 
       const target = document.getElementById(`bar-card-${id}`);
       if (target) {
-        target.classList.remove('border-brand-border', 'bg-brand-card');
-        target.classList.add('border-brand-lime', 'bg-zinc-900');
+        target.classList.remove('border-zinc-500', 'border', 'bg-brand-card');
+        target.classList.add('border-brand-lime', 'border-2', 'bg-zinc-900');
         if (scrollTarget) {
           target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
